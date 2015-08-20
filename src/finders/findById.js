@@ -16,9 +16,10 @@ Query.prototype.findById = function(id, done) {
 
     //build find query conditions
     if (id) {
-        self._conditions = _.merge(this._conditions, {
-            id: id
-        });
+        self._conditions.id = {
+            operation: 'isEqual',
+            value: id
+        };
     }
 
     //set current operationeration

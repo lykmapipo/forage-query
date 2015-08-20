@@ -6,6 +6,9 @@
 function Query() {
     //initialize empty condition collection
     this._conditions = {};
+
+    //current path to be used in building query clause
+    this._path = undefined;
 }
 
 
