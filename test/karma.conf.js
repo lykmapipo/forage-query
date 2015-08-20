@@ -29,7 +29,6 @@ module.exports = function(config) {
             'bower_components/Faker/build/build/faker.js',
             // endbower
             'src/**/*.js',
-            'test/mock/**/*.js',
             'test/spec/**/*.js'
         ],
 

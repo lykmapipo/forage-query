@@ -22,6 +22,8 @@
     "expr": true,
     "globals": {
         "faker": false,
+        "expect": false,
+        "Query": false,
         "localForage": false
     }
 }

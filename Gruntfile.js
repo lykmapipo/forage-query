@@ -45,8 +45,7 @@ module.exports = function(grunt) {
                             '<%= props.dist %>'
                         ]
                     }]
-                },
-                server: '.tmp'
+                }
             },
 
             // Make sure code styles are up to par 
@@ -67,9 +66,6 @@ module.exports = function(grunt) {
                         jshintrc: '<%= props.test %>/.jshintrc'
                     },
                     src: ['<%= props.spec %>/**/*.js']
-                },
-                example: {
-                    src: ['<%= props.example %>/**/*.js']
                 }
             },
 
@@ -92,6 +88,8 @@ module.exports = function(grunt) {
                     tasks: ['newer:jshint:src', 'newer:jshint:test', 'karma']
                 }
             },
+
+            //concat task configuration
             concat: {
                 options: {
                     banner: '<%= meta.banner %>\n',
@@ -100,7 +98,14 @@ module.exports = function(grunt) {
                 },
                 dist: {
                     files: {
-                        'dist/<%= pkg.name %>.js': []
+                        'dist/<%= pkg.name %>.js': [
+                            '<%= props.src %>/query.js',
+                            '<%= props.src %>/aggregators/**/*.js',
+                            '<%= props.src %>/creators/**/*.js',
+                            '<%= props.src %>/removers/**/*.js',
+                            '<%= props.src %>/updators/**/*.js',
+                            '<%= props.src %>/finders/**/*.js'
+                        ]
                     }
                 }
             },
