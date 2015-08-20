@@ -24,9 +24,21 @@ Query.prototype.where = function(criteria, done) {
         self._path = criteria;
     }
 
+    //build criteria
+    function buildCriteria() {
+        var paths = _.keys(criteria);
+
+        _.forEach(paths, function(path) {
+            self._conditions[path] = {
+                operation: 'isEqual',
+                value: criteria[path]
+            };
+        });
+    }
+
     //if it plain object merge it into conditions
     if (_.isPlainObject(criteria)) {
-        self._conditions = _.merge(self._conditions, criteria);
+        buildCriteria();
     }
 
     //exceute find query

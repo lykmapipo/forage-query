@@ -19,9 +19,23 @@ Query.prototype.find = function(criteria, done) {
     }
 
     //build or merge criterias
-    // if (criteria) {
-    //     this._conditions = _.merge(this._conditions, criteria);
-    // }
+    if (criteria) {
+        self.where(criteria);
+    }
+
+
+    function buildItem(key, value) {
+        if (_.isPlainObject(value)) {
+            return _.extend(value, {
+                id: key
+            });
+        } else {
+            return {
+                id: key,
+                value: value
+            };
+        }
+    }
 
     //filter provided key,value pair based on current
     //query condition
@@ -40,7 +54,6 @@ Query.prototype.find = function(criteria, done) {
 
         //iterate over paths and apply
         //condition operation
-
         _.forEach(paths, function pathMatcher(path) {
             //obtain matcher
             var matcher = conditions[path];
@@ -59,21 +72,16 @@ Query.prototype.find = function(criteria, done) {
         return isMatched;
     }
 
-    //if conditions contains id return item with the specified id
-    // function fetchById(key, value) {
-    //     if (self._conditions.id && key === self._conditions.id) {
-    //         if (_.isPlainObject(value)) {
-    //             return _.extend(value, {
-    //                 id: key
-    //             });
-    //         } else {
-    //             return {
-    //                 id: key,
-    //                 value: value
-    //             };
-    //         }
-    //     }
-    // }
+    // if conditions contains id return item with the specified id
+    function matchId(key) {
+        var conditions = _.clone(self._conditions);
+        var id = conditions.id;
+        if (id) {
+            return _.isEqual(key, id);
+        } else {
+            return false;
+        }
+    }
 
     //execute query
     if (done && _.isFunction(done)) {
@@ -81,6 +89,11 @@ Query.prototype.find = function(criteria, done) {
         var items = [];
         //iterate store and collect item(s) based on criteria
         self.localForage.iterate(function onItem(value, key /*, iterationNumber*/ ) {
+            //filter item based on id
+            if (matchId(key)) {
+                return buildItem(key, value);
+            }
+
             //filter item based on condition
             if (matchConditions(key, value)) {
                 //collect matched values
@@ -96,16 +109,7 @@ Query.prototype.find = function(criteria, done) {
 
                 //prepare result
                 items = _.map(items, function(item) {
-                    if (_.isPlainObject(item.value)) {
-                        return _.extend(item.value, {
-                            id: item.key
-                        });
-                    } else {
-                        return {
-                            id: item.key,
-                            value: item.value
-                        };
-                    }
+                    return buildItem(item.key, item.value);
                 });
 
                 if (_.size(items) === 1) {
