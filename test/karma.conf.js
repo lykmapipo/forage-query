@@ -26,9 +26,16 @@ module.exports = function(config) {
         files: [
             // bower:js
             'bower_components/localforage/dist/localforage.js',
+            'bower_components/node-uuid/uuid.js',
+            'bower_components/lodash/lodash.js',
             'bower_components/Faker/build/build/faker.js',
             // endbower
-            'src/**/*.js',
+            'src/query.js',
+            'src/aggregators/**/*.js',
+            'src/creators/**/*.js',
+            'src/finders/**/*.js',
+            'src/removers/**/*.js',
+            'src/updators/**/*.js',
             'test/spec/**/*.js'
         ],
 

@@ -20,6 +20,9 @@
     "expr": true,
     "globals": {
         "faker": false,
+        "Query": false,
+        "uuid": false,
+        "_": false,
         "localForage": false
     }
 }
