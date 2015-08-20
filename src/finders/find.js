@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
  * @description find an item using specified criteria
  * @param  {Function} done [description]
@@ -22,39 +23,23 @@ Query.prototype.find = function(criteria, done) {
         this._conditions = _.merge(this._conditions, criteria);
     }
 
-    //if there is id return an item with associated id
-    if (self._conditions.id && done && _.isFunction(done)) {
-        self.localForage.getItem(self._conditions.id, function(error, result) {
-            //if error back off
-            if (error) {
-                done(error);
+
+    //iterate store and collect item(s) based on criteria
+    self.localForage.iterate(function onItem(value, key /*, iterationNumber*/ ) {
+        //if conditions contains id return item with the specified id
+        if (self._conditions.id && key === self._conditions.id) {
+            if (_.isPlainObject(value)) {
+                return _.extend(value, {
+                    id: key
+                });
+            } else {
+                return {
+                    id: key,
+                    value: value
+                };
             }
-
-            //return created item
-            else {
-
-                //if result its not an object construct it
-                if (!_.isPlainObject(result)) {
-                    result = {
-                        id: self._conditions.id,
-                        value: result
-                    };
-                }
-
-                //extend an object with its key/id
-                else {
-                    result = _.extend(result, {
-                        id: self._conditions.id
-                    });
-                }
-
-                //we done return data
-                done(null, result);
-            }
-        });
-    }
-
-    //TODO build a criteria on toperation of iterator
+        }
+    }, done);
 
     return self;
 };
