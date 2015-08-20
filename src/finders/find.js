@@ -85,6 +85,15 @@ Query.prototype.find = function(criteria, done) {
 
     //execute query
     if (done && _.isFunction(done)) {
+        //if there is id in condition clause
+        //get item by its id
+        if (self._conditions.id) {
+            var id = self._conditions.id.value;
+            self.localForage.getItem(id, function(error, value) {
+                done(error, buildItem(id, value));
+            });
+        }
+
         //collect all values match filter
         var items = [];
         //iterate store and collect item(s) based on criteria
