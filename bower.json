@@ -1,0 +1,39 @@
+{
+    "name": "forageQuery",
+    "version": "0.1.0",
+    "description": "Query builder for localForage",
+    "homepage": "https://github.com/lykmapipo/forageQuery",
+    "main": [
+        "dist/forageQuery.js"
+    ],
+    "authors": [
+        "lykmapipo <lallyelias87@gmail.com>"
+    ],
+    "keywords": [
+        "localForage",
+        "finder",
+        "projection",
+        "map",
+        "reduce",
+        "filter",
+        "indexdb",
+        "localstorage",
+        "websql"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "src",
+        "package.json",
+        "Gruntfile.js"
+    ],
+    "dependencies": {
+        "localforage": "~1.2.7"
+    },
+    "devDependencies": {
+        "Faker": "~2.1.2"
+    }
+}
