@@ -1,38 +1,30 @@
 'use strict';
 
 /**
- * @description create an item from the provided data
- * @param  {Object} data data to create 
+ * @description find an item using specified criteria
  * @param  {Function} done [description]
- * @return {Object}            an object containing a data and its key
+ * @return {[type]}            [description]
  */
-Query.prototype.create = function(data, done) {
+Query.prototype.find = function(criteria, done) {
     /*jshint validthis:true*/
     var self = this;
 
     //tell what operation to perform
-    self._operation = 'create';
+    self._operation = 'find';
 
-    if (_.isFunction(data)) {
-        done = data;
-        data = undefined;
+    if (_.isFunction(criteria)) {
+        done = criteria;
+        criteria = undefined;
     }
 
-    if (data) {
-        //prepare id for storing an item
-        self._id = data.id || uuid.v1();
-
-        //delete key or id
-        delete data.id;
-
-        //tell which data to create
-        self._data = data;
+    //build or merge criterias
+    if (criteria) {
+        this._conditions = _.merge(this._conditions, criteria);
     }
 
-    //execute query
-    if (done && _.isFunction(done)) {
-
-        self.localForage.setItem(self._id, self._data, function(error, result) {
+    //if there is id return an item with associated id
+    if (self._conditions.id && done && _.isFunction(done)) {
+        self.localForage.getItem(self._conditions.id, function(error, result) {
             //if error back off
             if (error) {
                 done(error);
@@ -44,7 +36,7 @@ Query.prototype.create = function(data, done) {
                 //if result its not an object construct it
                 if (!_.isPlainObject(result)) {
                     result = {
-                        id: self._id,
+                        id: self._conditions.id,
                         value: result
                     };
                 }
@@ -52,7 +44,7 @@ Query.prototype.create = function(data, done) {
                 //extend an object with its key/id
                 else {
                     result = _.extend(result, {
-                        id: self._id
+                        id: self._conditions.id
                     });
                 }
 
@@ -62,6 +54,7 @@ Query.prototype.create = function(data, done) {
         });
     }
 
-    //else return self
+    //TODO build a criteria on toperation of iterator
+
     return self;
 };
