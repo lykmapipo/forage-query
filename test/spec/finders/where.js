@@ -22,11 +22,11 @@ describe('Query#where', function() {
                 name: person.name,
                 email: person.email
             })
-            .exec(function(error, foundPerson) {
+            .exec(function(error, people) {
 
                 expect(error).to.be.null;
-                expect(foundPerson).to.exist;
-                expect(foundPerson.name).to.equal(person.name);
+                expect(people).to.exist;
+                expect(people[0].name).to.equal(person.name);
 
                 done();
             });

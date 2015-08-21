@@ -49,6 +49,10 @@ Query.prototype.where = function(criteria, done) {
  * @private
  */
 Query.prototype._parseCriteria = function(criteria) {
+    //TODO parse regex
+    //TODO allow for inverted condition
+    //TODO parse mongodb like, query filter
+
     /*jshint validthis:true*/
     var self = this;
 

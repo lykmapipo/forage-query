@@ -11,3 +11,8 @@ before(function(done) {
 before(function(done) {
     localforage.clear(done);
 });
+
+//clear localforage
+after(function(done) {
+    localforage.clear(done);
+});

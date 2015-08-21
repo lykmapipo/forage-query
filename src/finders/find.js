@@ -37,6 +37,7 @@ Query.prototype.find = function(criteria, done) {
         //otherwise iterate through and
         //collect all values match filter
         var items = [];
+
         //iterate store and collect item(s) based on criteria
         self.localForage.iterate(function onItem(value, key /*, iterationNumber*/ ) {
             //filter item based on condition
@@ -57,7 +58,12 @@ Query.prototype.find = function(criteria, done) {
                     return self._buildItem(item.key, item.value);
                 });
 
-                if (_.size(items) === 1) {
+                //check for skip and limit
+                if (self._skip && self._limit) {
+                    items = _.slice(items, self._skip, self._limit);
+                }
+
+                if (self._limit && self._limit === 1) {
                     done(null, _.first(items));
                 } else {
                     done(null, items);
@@ -125,10 +131,13 @@ Query.prototype._passFilter = function(key, value) {
         var _value = matcher.value;
 
         //obtaion value path
-        var property = value[path];
+        var property = _.get(value, path);
 
+        //invoke matcher oparation to compare property value 
+        //and condition value
         var ok = _[_operation](property, _value);
 
+        //TODO fix this
         isMatched = isMatched || ok;
 
     });

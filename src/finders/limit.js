@@ -15,6 +15,12 @@ Query.prototype.limit = function(value) {
     // tell what operation to perform
     self._operation = 'find';
 
+    //check for explicit skip
+    if (!self._skip) {
+        //implicit set skip value to zero
+        self._skip = 0;
+    }
+
     //set a limit condition
     self._limit = value;
 

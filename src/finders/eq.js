@@ -2,12 +2,16 @@
 
 
 /**
- * @description build where equal clause
- * @param  {String} path  a item path to perform comparison on
- * @param  {Mixed} value a value to be compared with the path value
- * @return {Query}       [description]
+ * @function
+ * @description Specifies the complementary comparison value for paths 
+ *              specified with where()
+ * @param  {String} path  optional item path to perform comparison on.
+ *                        if not specified previous path will be used
+ * @param  {Object} value a value to be compared with the path value
+ * @return {Query}       this
+ * @public
  */
-Query.prototype.eq = function(path, value) {
+Query.prototype.eq = Query.prototype.equals = function(path, value) {
     /*jshint validthis:true*/
     var self = this;
 
@@ -16,21 +20,20 @@ Query.prototype.eq = function(path, value) {
 
     //check if path is specified explicit
     if (_.size(arguments) === 2) {
-        //update path to use in the clause
+        //if so, update path to use in the clause
         self._path = path;
     }
 
     //otherwise only value specified
     else {
+        //set value to be used in comparison
         value = path;
     }
 
-    //merge current isEqual condition
-    //and override any condition set to current path
-    self._conditions[self._path] = {
-        operation: 'isEqual',
-        value: value
-    };
+    //build where clause and update current query conditions
+    var criteria = {};
+    criteria[self._path] = value;
+    self.where(criteria);
 
     //return self
     return self;
