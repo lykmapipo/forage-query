@@ -1,10 +1,12 @@
 'use strict';
 
 /**
+ * @function
  * @description create an item from the provided data
  * @param  {Object} data data to create 
- * @param  {Function} done [description]
+ * @param  {Function} done a callback to invoke after create an item
  * @return {Object}            an object containing a data and its key
+ * @public
  */
 Query.prototype.create = function(data, done) {
     /*jshint validthis:true*/
@@ -41,20 +43,7 @@ Query.prototype.create = function(data, done) {
             //return created item
             else {
 
-                //if result its not an object construct it
-                if (!_.isPlainObject(result)) {
-                    result = {
-                        id: self._id,
-                        value: result
-                    };
-                }
-
-                //extend an object with its key/id
-                else {
-                    result = _.extend(result, {
-                        id: self._id
-                    });
-                }
+                result = self._buildItem(self._id, result);
 
                 //we done return data
                 done(null, result);

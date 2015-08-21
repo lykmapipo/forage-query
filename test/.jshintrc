@@ -26,6 +26,6 @@
         "expect": false,
         "uuid": false,
         "_": false,
-        "localForage": false
+        "localforage": false
     }
 }

@@ -22,7 +22,6 @@
         "faker": false,
         "Query": false,
         "uuid": false,
-        "_": false,
-        "localForage": false
+        "_": false
     }
 }

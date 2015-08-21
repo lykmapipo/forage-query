@@ -9,6 +9,10 @@ function Query() {
 
     //current path to be used in building query clause
     this._path = undefined;
+
+    //specifies skip and limit conditions
+    this._skip = undefined;
+    this._limit = undefined;
 }
 
 
@@ -26,14 +30,13 @@ function Query() {
  * @api public
  */
 Query.prototype.exec = function exec(operation, callback) {
-    switch (typeof operation) {
-        case 'function':
-            callback = operation;
-            operation = null;
-            break;
-        case 'string':
-            this._operation = operation;
-            break;
+    if (_.isFunction(operation)) {
+        callback = operation;
+        operation = undefined;
+    }
+
+    if (operation) {
+        this._operation = operation;
     }
 
     this[this._operation](callback);

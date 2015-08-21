@@ -24,24 +24,13 @@ Query.prototype.where = function(criteria, done) {
         self._path = criteria;
     }
 
-    //build criteria
-    function buildCriteria() {
-        var paths = _.keys(criteria);
 
-        _.forEach(paths, function(path) {
-            self._conditions[path] = {
-                operation: 'isEqual',
-                value: criteria[path]
-            };
-        });
-    }
-
-    //if it plain object merge it into conditions
+    //if it plain object parse it into conditions
     if (_.isPlainObject(criteria)) {
-        buildCriteria();
+        self._parseCriteria(criteria);
     }
 
-    //exceute find query
+    //execute find query
     if (done && _.isFunction(done)) {
         self.find(done);
     }
@@ -53,26 +42,22 @@ Query.prototype.where = function(criteria, done) {
 };
 
 
-Query.prototype.eq = function(path, value) {
+/**
+ * @function
+ * @description parse provided criteria into query condition
+ * @param  {Object} criteria a valid criteria
+ * @private
+ */
+Query.prototype._parseCriteria = function(criteria) {
     /*jshint validthis:true*/
     var self = this;
 
-    // tell what operation to perform
-    self._operation = 'find';
+    var paths = _.keys(criteria);
 
-    //check if path is specified explicit
-    if (_.size(arguments) === 2) {
-        //update path to use in the clause
-        self._path = path;
-    }
-
-    //merge current isEqual condition
-    //and override any condition set to current path
-    self._conditions[self._path] = {
-        operation: 'isEqual',
-        value: value
-    };
-
-    //return self
-    return self;
+    _.forEach(paths, function(path) {
+        self._conditions[path] = {
+            operation: 'isEqual',
+            value: criteria[path]
+        };
+    });
 };

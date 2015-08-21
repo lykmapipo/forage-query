@@ -3,6 +3,11 @@
 //extend localForage with query capabilities
 before(function(done) {
     //pass localforage instance to be extended
-    Query.extend(window.localforage);
+    Query.extend(localforage);
     done();
+});
+
+//clear localforage
+before(function(done) {
+    localforage.clear(done);
 });

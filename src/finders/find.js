@@ -23,66 +23,6 @@ Query.prototype.find = function(criteria, done) {
         self.where(criteria);
     }
 
-
-    function buildItem(key, value) {
-        if (_.isPlainObject(value)) {
-            return _.extend(value, {
-                id: key
-            });
-        } else {
-            return {
-                id: key,
-                value: value
-            };
-        }
-    }
-
-    //filter provided key,value pair based on current
-    //query condition
-    function matchConditions(key, value) {
-        var isMatched = false;
-
-        //extend value with its id
-        value = _.extend(value, {
-            id: key
-        });
-
-        //clone conditions
-        var conditions = _.clone(self._conditions);
-
-        var paths = _.keys(conditions);
-
-        //iterate over paths and apply
-        //condition operation
-        _.forEach(paths, function pathMatcher(path) {
-            //obtain matcher
-            var matcher = conditions[path];
-            var _operation = matcher.operation;
-            var _value = matcher.value;
-
-            //obtaion value path
-            var property = value[path];
-
-            var ok = _[_operation](property, _value);
-
-            isMatched = isMatched || ok;
-
-        });
-
-        return isMatched;
-    }
-
-    // if conditions contains id return item with the specified id
-    function matchId(key) {
-        var conditions = _.clone(self._conditions);
-        var id = conditions.id;
-        if (id) {
-            return _.isEqual(key, id);
-        } else {
-            return false;
-        }
-    }
-
     //execute query
     if (done && _.isFunction(done)) {
         //if there is id in condition clause
@@ -90,21 +30,17 @@ Query.prototype.find = function(criteria, done) {
         if (self._conditions.id) {
             var id = self._conditions.id.value;
             self.localForage.getItem(id, function(error, value) {
-                done(error, buildItem(id, value));
+                done(error, self._buildItem(id, value));
             });
         }
 
+        //otherwise iterate through and
         //collect all values match filter
         var items = [];
         //iterate store and collect item(s) based on criteria
         self.localForage.iterate(function onItem(value, key /*, iterationNumber*/ ) {
-            //filter item based on id
-            if (matchId(key)) {
-                return buildItem(key, value);
-            }
-
             //filter item based on condition
-            if (matchConditions(key, value)) {
+            if (self._passFilter(key, value)) {
                 //collect matched values
                 items.push({
                     key: key,
@@ -118,7 +54,7 @@ Query.prototype.find = function(criteria, done) {
 
                 //prepare result
                 items = _.map(items, function(item) {
-                    return buildItem(item.key, item.value);
+                    return self._buildItem(item.key, item.value);
                 });
 
                 if (_.size(items) === 1) {
@@ -132,4 +68,70 @@ Query.prototype.find = function(criteria, done) {
     }
 
     return self;
+};
+
+
+/**
+ * @function
+ * @description build an item from its key value
+ * @param  {String|Integer} key id of the value stored
+ * @param  {Mixed} value actual value store
+ * @return {Object}       a combination of key and value
+ * @private
+ */
+Query.prototype._buildItem = function(key, value) {
+    if (_.isPlainObject(value)) {
+        return _.extend(value, {
+            id: key
+        });
+    } else {
+        return {
+            id: key,
+            value: value
+        };
+    }
+};
+
+
+/**
+ * @function
+ * @description filter provided key,value pair based on current query condition
+ * @param  {Mixed} key   a key/id of the value
+ * @param  {Mixed} value a value to be filtered
+ * @private
+ */
+Query.prototype._passFilter = function(key, value) {
+    /*jshint validthis:true*/
+    var self = this;
+
+    var isMatched = false;
+
+    //extend value with its id
+    value = _.extend(value, {
+        id: key
+    });
+
+    //clone conditions
+    var conditions = _.clone(self._conditions);
+
+    var paths = _.keys(conditions);
+
+    //iterate over paths and apply
+    //condition operation
+    _.forEach(paths, function pathMatcher(path) {
+        //obtain matcher
+        var matcher = conditions[path];
+        var _operation = matcher.operation;
+        var _value = matcher.value;
+
+        //obtaion value path
+        var property = value[path];
+
+        var ok = _[_operation](property, _value);
+
+        isMatched = isMatched || ok;
+
+    });
+
+    return isMatched;
 };
