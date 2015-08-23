@@ -27,6 +27,8 @@
         "expect": false,
         "uuid": false,
         "_": false,
-        "localforage": false
+        "localforage": false,
+        "EJSON": false,
+        "selector": false
     }
 }

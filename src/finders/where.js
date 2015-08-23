@@ -59,9 +59,6 @@ Query.prototype._parseCriteria = function(criteria) {
     var paths = _.keys(criteria);
 
     _.forEach(paths, function(path) {
-        self._conditions[path] = {
-            operation: 'isEqual',
-            value: criteria[path]
-        };
+        self._conditions[path] = criteria[path];
     });
 };

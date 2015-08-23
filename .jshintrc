@@ -22,6 +22,8 @@
         "define": false,
         "Query": false,
         "uuid": false,
-        "_": false
+        "_": false,
+        "EJSON": false,
+        "selector": false
     }
 }

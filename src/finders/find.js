@@ -28,7 +28,7 @@ Query.prototype.find = function(criteria, done) {
         //if there is id in condition clause
         //get item by its id
         if (self._conditions.id) {
-            var id = self._conditions.id.value;
+            var id = self._conditions.id;
             self.localForage.getItem(id, function(error, value) {
                 done(error, self._buildItem(id, value));
             });
@@ -110,8 +110,6 @@ Query.prototype._passFilter = function(key, value) {
     /*jshint validthis:true*/
     var self = this;
 
-    var isMatched = false;
-
     //extend value with its id
     value = _.extend(value, {
         id: key
@@ -120,27 +118,9 @@ Query.prototype._passFilter = function(key, value) {
     //clone conditions
     var conditions = _.clone(self._conditions);
 
-    var paths = _.keys(conditions);
+    //make use of selector to compile current conditions
+    var matched = selector.compile(conditions);
 
-    //iterate over paths and apply
-    //condition operation
-    _.forEach(paths, function pathMatcher(path) {
-        //obtain matcher
-        var matcher = conditions[path];
-        var _operation = matcher.operation;
-        var _value = matcher.value;
-
-        //obtaion value path
-        var property = _.get(value, path);
-
-        //invoke matcher oparation to compare property value 
-        //and condition value
-        var ok = _[_operation](property, _value);
-
-        //TODO fix this
-        isMatched = isMatched || ok;
-
-    });
-
-    return isMatched;
+    //check if value(doc) match specified conditions
+    return matched(value);
 };

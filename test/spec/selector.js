@@ -2,18 +2,18 @@
 
 describe('Selector', function() {
     it('should be loaded and available in global scope', function(done) {
-        expect(window.selector).to.exist;
+        expect(selector).to.exist;
         done();
     });
 
     it('should export `compile` and `compileSort`', function(done) {
-        expect(window.selector.compile).to.exist;
-        expect(window.selector.compileSort).to.exist;
+        expect(selector.compile).to.exist;
+        expect(selector.compileSort).to.exist;
         done();
     });
 
     it('should be able to compile a selector specification into a function', function(done) {
-        var func = window.selector.compile({
+        var func = selector.compile({
             score: {
                 '$gte': 12
             }
@@ -25,7 +25,7 @@ describe('Selector', function() {
     });
 
     it('should be able to compile a sort specification into a function', function(done) {
-        var func = window.selector.compileSort({
+        var func = selector.compileSort({
             key1: 1,
             key2: -1
         });
@@ -36,7 +36,7 @@ describe('Selector', function() {
     });
 
     it('should be able to check if a doc pass a compiled specification', function(done) {
-        var func = window.selector.compile({
+        var func = selector.compile({
             score: {
                 '$gte': 12
             }

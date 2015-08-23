@@ -19,10 +19,7 @@ Query.prototype.findById = function(id, done) {
 
     //build find query conditions
     if (id) {
-        self._conditions.id = {
-            operation: 'isEqual',
-            value: id
-        };
+        self._conditions.id = id;
     }
 
     //set skip and limit conditions
