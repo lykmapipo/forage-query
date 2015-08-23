@@ -30,6 +30,7 @@ module.exports = function(config) {
             'bower_components/lodash/lodash.js',
             'bower_components/Faker/build/build/faker.js',
             // endbower
+            'src/EJSON.js',
             'src/query.js',
             'src/aggregators/**/*.js',
             'src/creators/**/*.js',

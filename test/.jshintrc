@@ -22,6 +22,7 @@
     "expr": true,
     "globals": {
         "faker": false,
+        "define": false,
         "Query": false,
         "expect": false,
         "uuid": false,
