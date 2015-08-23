@@ -816,7 +816,7 @@
 
     //prepare selector
     var selector = {
-        compileDocumentSelector: compileDocumentSelector,
+        compile: compileDocumentSelector,
         compileSort: LocalCollection._compileSort
     };
 
