@@ -31,6 +31,7 @@ module.exports = function(config) {
             'bower_components/Faker/build/build/faker.js',
             // endbower
             'src/EJSON.js',
+            'src/selector.js',
             'src/query.js',
             'src/aggregators/**/*.js',
             'src/creators/**/*.js',

@@ -17,7 +17,6 @@
     "strict": true,
     "trailing": true,
     "smarttabs": true,
-    "expr": true,
     "globals": {
         "faker": false,
         "define": false,
