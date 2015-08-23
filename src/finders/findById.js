@@ -19,7 +19,9 @@ Query.prototype.findById = function(id, done) {
 
     //build find query conditions
     if (id) {
-        self._conditions.id = id;
+        self._conditions.id = {
+            '$eq': id
+        };
     }
 
     //set skip and limit conditions

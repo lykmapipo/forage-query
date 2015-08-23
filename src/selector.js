@@ -239,6 +239,15 @@
             };
         },
 
+        '$eq': function(operand) {
+            return function(value) {
+                return _anyIfArrayPlus(value, function(x) {
+                    return LocalCollection._f._equal(x, operand);
+                });
+            };
+        },
+
+
         '$ne': function(operand) {
             return function(value) {
                 return !_anyIfArrayPlus(value, function(x) {

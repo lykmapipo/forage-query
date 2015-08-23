@@ -32,7 +32,9 @@ Query.prototype.eq = Query.prototype.equals = function(path, value) {
 
     //build where clause and update current query conditions
     var criteria = {};
-    criteria[self._path] = value;
+    criteria[self._path] = {
+        '$eq': value
+    };
     self.where(criteria);
 
     //return self

@@ -27,8 +27,8 @@ Query.prototype.find = function(criteria, done) {
     if (done && _.isFunction(done)) {
         //if there is id in condition clause
         //get item by its id
-        if (self._conditions.id) {
-            var id = self._conditions.id;
+        if (self._conditions.id || self._conditions._id) {
+            var id = self._conditions.id.$eq || self._conditions._id.$eq;
             self.localForage.getItem(id, function(error, value) {
                 done(error, self._buildItem(id, value));
             });
@@ -112,7 +112,8 @@ Query.prototype._passFilter = function(key, value) {
 
     //extend value with its id
     value = _.extend(value, {
-        id: key
+        id: key,
+        _id: key
     });
 
     //clone conditions

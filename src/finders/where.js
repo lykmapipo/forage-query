@@ -59,6 +59,29 @@ Query.prototype._parseCriteria = function(criteria) {
     var paths = _.keys(criteria);
 
     _.forEach(paths, function(path) {
-        self._conditions[path] = criteria[path];
+        //normalize criteria value to adhere to mongodb query style
+        var criteriaValue = criteria[path];
+
+        //convert primitives `equal` to use $eq query builder
+        //to allow `query.eq` chain
+        //i.e
+        //query.where(name).eq('<name>').where('email').eq('<email>')
+        if (!_.isObject(criteriaValue)) {
+            criteriaValue = {
+                '$eq': criteriaValue
+            };
+        }
+
+        //check if path already exists in conditions
+        if (_.has(self._conditions, path)) {
+            //update to use complex path
+            var _condition = self._condition[path];
+            self.conditions[path] = _.extend(_condition, criteriaValue);
+        }
+
+        //add simple path in _conditions
+        else {
+            self._conditions[path] = criteriaValue;
+        }
     });
 };
