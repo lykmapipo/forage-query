@@ -1,6 +1,6 @@
 //MongoDB like selector for Javascript
+//
 //borrowed from https://github.com/mWater/minimongo
-
 (function(root, factory) {
     'use strict';
 

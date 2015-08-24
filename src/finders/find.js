@@ -79,28 +79,6 @@ Query.prototype.find = function(criteria, done) {
 
 /**
  * @function
- * @description build an item from its key value
- * @param  {String|Integer} key id of the value stored
- * @param  {Mixed} value actual value store
- * @return {Object}       a combination of key and value
- * @private
- */
-Query.prototype._buildItem = function(key, value) {
-    if (_.isPlainObject(value)) {
-        return _.extend(value, {
-            id: key
-        });
-    } else {
-        return {
-            id: key,
-            value: value
-        };
-    }
-};
-
-
-/**
- * @function
  * @description filter provided key,value pair based on current query condition
  * @param  {Mixed} key   a key/id of the value
  * @param  {Mixed} value a value to be filtered

@@ -22,10 +22,11 @@ Query.prototype.create = function(data, done) {
 
     if (data) {
         //prepare id for storing an item
-        self._id = data.id || uuid.v1();
+        self._id = data.id || data._id || uuid.v1();
 
         //delete key or id
         delete data.id;
+        delete data._id;
 
         //tell which data to create
         self._data = data;

@@ -93,6 +93,8 @@
 - [ ] `or`
 - [ ] `nor`
 - [ ] `and`
+- [ ] `map`
+- [ ] `reduce`
 
 ## Aggregate
 - [ ] `count`
