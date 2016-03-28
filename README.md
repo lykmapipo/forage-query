@@ -12,8 +12,6 @@ Query builder for [localForage](https://github.com/mozilla/localForage)
 * [Development](#development)
 * [Contribute](#contribute)
 
-
-
 ## Install
 ```sh
 $ bower install --save forage-query
@@ -68,6 +66,15 @@ $ grunt
 
 ## Contribute
 Fork this repo and push in your ideas. Do not forget to add a bit of test(s) of what value you adding.
+
+## References
+- [filtr](https://github.com/logicalparadox/filtr/)
+- [mongomock](https://github.com/AndrewGrachov/mongomock)
+- [mongo-query](https://github.com/AndrewGrachov/mongo-query)
+- [mongo-query](https://github.com/Automattic/mongo-query)
+- [mongo-json-query](https://github.com/mcvella/mongo-json-query)
+- [json-query](https://github.com/eugeneware/jsonquery)
+- [mingo](https://github.com/kofrasa/mingo)
 
 ## Licence
 

@@ -33,11 +33,18 @@
   "dependencies": {
     "localforage": "~1.4.0",
     "node-uuid": "~1.4.7",
-    "lodash": "~4.6.1"
+    "lodash": "~4.6.1",
+    "mingo": "~0.6.3"
   },
   "devDependencies": {
     "Faker": "~2.1.2",
     "angular": "~1.5.3",
     "angular-localforage": "~1.2.5"
+  },
+  "overrides": {
+    "mingo": {
+      "main": "mingo.js",
+      "dependencies": {}
+    }
   }
 }

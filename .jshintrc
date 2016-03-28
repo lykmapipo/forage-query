@@ -23,7 +23,6 @@
         "Query": false,
         "uuid": false,
         "_": false,
-        "EJSON": false,
-        "selector": false
+        "Mingo": false
     }
 }

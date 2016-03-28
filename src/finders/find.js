@@ -97,9 +97,9 @@ Query.prototype._passFilter = function(key, value) {
     //clone conditions
     var conditions = _.clone(self._conditions);
 
-    //make use of selector to compile current conditions
-    var matched = selector.compile(conditions);
+    //make use of Mingo.Query to compile current conditions
+    var mingo = new Mingo.Query(conditions);
 
     //check if value(doc) match specified conditions
-    return matched(value);
+    return mingo.test(value);
 };

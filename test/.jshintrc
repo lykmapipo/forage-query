@@ -28,7 +28,6 @@
         "uuid": false,
         "_": false,
         "localforage": false,
-        "EJSON": false,
-        "selector": false
+        "Mingo": false
     }
 }
