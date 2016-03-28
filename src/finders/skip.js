@@ -9,15 +9,15 @@
  * @public
  */
 Query.prototype.skip = function(value) {
-    /*jshint validthis:true*/
-    var self = this;
+	/*jshint validthis:true*/
+	var self = this;
 
-    // tell what operation to perform
-    self._operation = 'find';
+	// tell what operation to perform
+	self._operation = 'find';
 
-    //set a skip condition
-    self._skip = value;
+	//set a skip condition
+	self._skip = value || 0;
 
-    //return self
-    return self;
+	//return self
+	return self;
 };

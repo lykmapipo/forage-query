@@ -3,8 +3,8 @@
 
 /**
  * @description find an item using specified criteria
- * @param  {Function} done [description]
- * @return {[type]}            [description]
+ * @param  {Function} [done] callback to invoke on success or error
+ * @return {Query}           query instance
  */
 Query.prototype.find = function(criteria, done) {
     /*jshint validthis:true*/
@@ -30,7 +30,7 @@ Query.prototype.find = function(criteria, done) {
         if (self._conditions.id || self._conditions._id) {
             var id = self._conditions.id.$eq || self._conditions._id.$eq;
             self.localForage.getItem(id, function(error, value) {
-                done(error, self._buildItem(id, value));
+                return done(error, self._buildItem(id, value));
             });
         }
 
@@ -50,23 +50,39 @@ Query.prototype.find = function(criteria, done) {
             }
         }, function(error) {
             if (error) {
-                done(error);
+                return done(error);
             } else {
 
-                //prepare result
-                items = _.map(items, function(item) {
-                    return self._buildItem(item.key, item.value);
-                });
+                try {
+                    
+                    //prepare result
+                    items = _.map(items, function(item) {
+                        return self._buildItem(item.key, item.value);
+                    });
 
-                //check for skip and limit
-                if (self._skip && self._limit) {
-                    items = _.slice(items, self._skip, self._limit);
-                }
+                    //build Mingo Cursor
+                    items =
+                        new Mingo.Cursor(items, self._conditions, self._projection);
 
-                if (self._limit && self._limit === 1) {
-                    done(null, _.first(items));
-                } else {
-                    done(null, items);
+                    //apply skip and limit to cursor
+                    if (self._skip && self._limit) {
+                        items = items.skip(self._skip).limit(self._limit);
+                    }
+
+                    //apply sort to cursor
+                    if (self._sort) {
+                        items = items.sort(self._sort);
+                    }
+
+                    //fetch item(s)
+                    items =
+                        (self._limit && self._limit === 1) ?
+                        items.first() : items.all();
+
+                    //return item(s)
+                    return done(null, items);
+                } catch (e) {
+                    return done(e);
                 }
             }
         });
@@ -98,8 +114,10 @@ Query.prototype._passFilter = function(key, value) {
     var conditions = _.clone(self._conditions);
 
     //make use of Mingo.Query to compile current conditions
-    var mingo = new Mingo.Query(conditions);
+    self._mingo = self._mingo || new Mingo.Query(conditions);
 
-    //check if value(doc) match specified conditions
-    return mingo.test(value);
+    //check if value(doc) match/pass specified conditions
+    var pass = self._mingo.test(value);
+
+    return pass;
 };

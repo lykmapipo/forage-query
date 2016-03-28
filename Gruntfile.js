@@ -99,6 +99,7 @@ module.exports = function(grunt) {
                 dist: {
                     files: {
                         'dist/<%= pkg.name %>.js': [
+                            'bower_components/mingo/mingo.js',
                             '<%= props.src %>/query.js',
                             '<%= props.src %>/aggregators/**/*.js',
                             '<%= props.src %>/creators/**/*.js',

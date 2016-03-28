@@ -28,10 +28,10 @@ module.exports = function(config) {
             'bower_components/localforage/dist/localforage.js',
             'bower_components/node-uuid/uuid.js',
             'bower_components/lodash/lodash.js',
-            'bower_components/mingo/mingo.js',
             'bower_components/Faker/build/build/faker.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-localforage/dist/angular-localForage.js',
+            'bower_components/mingo/mingo.js',
             // endbower
             'src/query.js',
             'src/aggregators/**/*.js',

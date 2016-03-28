@@ -5,12 +5,22 @@ if (_ && !_.contains) {
     _.contains = _.includes;
 }
 
+
 /**
  * @description localForage query builder
  */
 function Query() {
     //initialize empty condition collection
     this._conditions = {};
+
+    //specify aggregation type
+    this._aggregation = undefined;
+
+    //specify projections
+    this._projection = undefined;
+
+    //specify sort criterias
+    this._sort = undefined;
 
     //current path to be used in building query clause
     this._path = undefined;

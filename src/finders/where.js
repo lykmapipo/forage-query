@@ -2,9 +2,9 @@
 
 /**
  * @description query where clause builder
- * @param  {[type]}   criteria [description]
- * @param  {Function} done     [description]
- * @return {[type]}            [description]
+ * @param  {Object}   criteria valid query object
+ * @param  {Function} [done]   callback to invoke on success or error
+ * @return {Query}             query instance
  */
 Query.prototype.where = function(criteria, done) {
     /*jshint validthis:true*/
@@ -66,7 +66,7 @@ Query.prototype._parseCriteria = function(criteria) {
         //to allow `query.eq` chain
         //i.e
         //query.where(name).eq('<name>').where('email').eq('<email>')
-        if (!_.isObject(criteriaValue)) {
+        if (!_.isPlainObject(criteriaValue)) {
             criteriaValue = {
                 '$eq': criteriaValue
             };
@@ -76,7 +76,7 @@ Query.prototype._parseCriteria = function(criteria) {
         if (_.has(self._conditions, path)) {
             //update to use complex path
             var _condition = self._condition[path];
-            self.conditions[path] = _.extend(_condition, criteriaValue);
+            self._conditions[path] = _.extend(_condition, criteriaValue);
         }
 
         //add simple path in _conditions
