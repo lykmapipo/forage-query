@@ -4,20 +4,18 @@ var person;
 
 describe('Query#find', function() {
     before(function(done) {
-        var query = new Query();
 
         var _person = faker.helpers.contextualCard();
 
-        query.create(_person, function(error, createdPerson) {
+        localforage.create(_person, function(error, createdPerson) {
             person = createdPerson;
             done(error, createdPerson);
         });
     });
 
     it('should be able to find an item by its id using callback style', function(done) {
-        var query = new Query();
 
-        query.find({
+        localforage.find({
             id: person.id
         }, function(error, foundPerson) {
 
@@ -25,14 +23,13 @@ describe('Query#find', function() {
             expect(foundPerson).to.exist;
             expect(foundPerson.name).to.equal(person.name);
 
-            done();
+            done(error, foundPerson);
         });
     });
 
     it('should be able to find an item by its id using defer style', function(done) {
-        var query = new Query();
 
-        query
+        localforage
             .find({
                 id: person.id
             })
@@ -47,9 +44,8 @@ describe('Query#find', function() {
     });
 
     it('should be able to find an item by its id using promise style', function(done) {
-        var query = new Query();
 
-        query
+        localforage
             .find({
                 id: person.id
             })

@@ -1,5 +1,10 @@
 'use strict';
 
+//ensure lodash has contains method
+if (_ && !_.contains) {
+    _.contains = _.includes;
+}
+
 /**
  * @description localForage query builder
  */
@@ -133,6 +138,18 @@ Query.extend = function(localForage, promise) {
 
             //create provided data
             return query.create.call(query, data, done);
+        };
+    });
+
+    //bind finders
+    _.forEach(['find', 'findOne', 'findById', 'where'], function(finder) {
+        //extend localforage with finders
+        localForage[finder] = function(criteria, done) {
+            //instantiate new query
+            var query = new Query();
+
+            //expose finder
+            return query[finder].call(query, criteria, done);
         };
     });
 

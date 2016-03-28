@@ -3,21 +3,17 @@
 var person;
 
 describe('Query#where', function() {
+
     before(function(done) {
-        var query = new Query();
-
         var _person = faker.helpers.contextualCard();
-
-        query.create(_person, function(error, createdPerson) {
+        localforage.create(_person, function(error, createdPerson) {
             person = createdPerson;
             done(error, createdPerson);
         });
     });
 
     it('should be able to find an item using where criteria', function(done) {
-        var query = new Query();
-
-        query
+        localforage
             .where({
                 name: person.name,
                 email: person.email
@@ -31,4 +27,5 @@ describe('Query#where', function() {
                 done();
             });
     });
+    
 });

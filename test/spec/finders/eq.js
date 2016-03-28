@@ -3,21 +3,18 @@
 var person;
 
 describe('Query#where#eq', function() {
+
     before(function(done) {
-        var query = new Query();
-
         var _person = faker.helpers.contextualCard();
-
-        query.create(_person, function(error, createdPerson) {
+        localforage.create(_person, function(error, createdPerson) {
             person = createdPerson;
             done(error, createdPerson);
         });
     });
 
     it('should be able to use simple path to build query condition', function(done) {
-        var query = new Query();
 
-        query
+        localforage
             .where('name').eq(person.name)
             .where('email').equals(person.email)
             .exec(function(error, people) {
@@ -31,9 +28,8 @@ describe('Query#where#eq', function() {
     });
 
     it('should be able to use nested path to build query condition', function(done) {
-        var query = new Query();
 
-        query
+        localforage
             .where('address.street')
             .eq(person.address.street)
             .exec(function(error, people) {
@@ -45,4 +41,5 @@ describe('Query#where#eq', function() {
                 done();
             });
     });
+
 });
