@@ -31,9 +31,9 @@
     "Gruntfile.js"
   ],
   "dependencies": {
-    "localforage": "~1.2.10",
+    "localforage": "~1.4.0",
     "node-uuid": "~1.4.7",
-    "lodash": "~3.10.1"
+    "lodash": "~4.6.1"
   },
   "devDependencies": {
     "Faker": "~2.1.2",
