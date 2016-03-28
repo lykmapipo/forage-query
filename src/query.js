@@ -82,6 +82,8 @@ Query.prototype.then = function(resolve, reject) {
     /*jshint validthis:true*/
     var self = this;
 
+    //TODO test angular 1.x promise
+
     var promise = new Query.Promise(function(_resolve, _reject) {
         self.exec(function(error, result) {
             if (error) {
@@ -97,13 +99,15 @@ Query.prototype.then = function(resolve, reject) {
 
 
 /**
+ * @function
  * @description extend localForage with querying capabilities
- * @param  {[type]} localForage [description]
- * @return {[type]}             [description]
+ * @param  {Object} localForage an instance of localforage
  */
 Query.extend = function(localForage) {
     //set localForage reference in query
     Query.prototype.localForage = localForage;
+
+    //TODO bind Query methods into localForage instance
 };
 
 /**

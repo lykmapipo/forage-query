@@ -8,7 +8,7 @@
  * @return {Object}            an object containing a data and its key
  * @public
  */
-Query.prototype.create = function(data, done) {
+Query.prototype.create = Query.prototype.insert = function(data, done) {
     /*jshint validthis:true*/
     var self = this;
 
