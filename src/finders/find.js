@@ -54,7 +54,7 @@ Query.prototype.find = function(criteria, done) {
             } else {
 
                 try {
-                    
+
                     //prepare result
                     items = _.map(items, function(item) {
                         return self._buildItem(item.key, item.value);
@@ -74,13 +74,20 @@ Query.prototype.find = function(criteria, done) {
                         items = items.sort(self._sort);
                     }
 
-                    //fetch item(s)
-                    items =
-                        (self._limit && self._limit === 1) ?
-                        items.first() : items.all();
+                    if (self._aggregation) {
+                        //TODO handle other aggregations
+                        items = items.count();
+                    } else {
+
+                        //fetch item(s)
+                        items =
+                            (self._limit && self._limit === 1) ?
+                            items.first() : items.all();
+                    }
 
                     //return item(s)
                     return done(null, items);
+
                 } catch (e) {
                     return done(e);
                 }

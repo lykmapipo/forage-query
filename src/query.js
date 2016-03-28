@@ -163,6 +163,15 @@ Query.extend = function(localForage, promise) {
         };
     });
 
-    //TODO bind Query methods into localForage instance
-    //WARN! dont forget concurrency issues(parallel run)
+    //bind default aggregator
+    _.forEach(['count'], function(aggregator) {
+        //extend localforage with aggregators
+        localForage[aggregator] = function(criteria, done) {
+            //instantiate new query
+            var query = new Query();
+
+            //expose aggregator
+            return query[aggregator].call(query, criteria, done);
+        };
+    });
 };

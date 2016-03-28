@@ -30,6 +30,7 @@ Query.prototype.count = function(criteria, done) {
 				return done(error, count);
 			});
 		}
+		
 		//query based on criteria
 		else {
 			//tell aggregation to perform
@@ -38,8 +39,8 @@ Query.prototype.count = function(criteria, done) {
 			self.find(done);
 		}
 
-	} else {
-		return this;
 	}
+
+	return this;
 
 };

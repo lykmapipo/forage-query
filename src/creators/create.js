@@ -9,6 +9,8 @@
  * @public
  */
 Query.prototype.create = function(data, done) {
+    //TODO should be able to batch create
+    
     /*jshint validthis:true*/
     var self = this;
 
