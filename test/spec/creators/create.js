@@ -64,7 +64,7 @@ describe('Query#create', function() {
 
     describe('batch items', function() {
         
-        it('should be able to create an items using callback style', function(done) {
+        it('should be able to create items using callback style', function(done) {
             var people = _.take(this.items, 2);
 
             localforage.create(people, function(error, createdPeople) {
@@ -82,7 +82,7 @@ describe('Query#create', function() {
             });
         });
 
-        it('should be able to create an items using defer style', function(done) {
+        it('should be able to create items using defer style', function(done) {
             var people = _.take(this.items, 2);
 
             localforage
@@ -102,7 +102,7 @@ describe('Query#create', function() {
                 });
         });
 
-        it('should be able to create an items using promise style', function(done) {
+        it('should be able to create items using promise style', function(done) {
             var people = _.take(this.items, 2);
 
             localforage

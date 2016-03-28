@@ -25,12 +25,12 @@ Query.prototype.count = function(criteria, done) {
 
 	if (done && _.isFunction(done)) {
 		//if no criteria return keys length
-		if (!criteria) {
+		if (!self._hasConditions()) {
 			self.localForage.length(function(error, count) {
 				return done(error, count);
 			});
 		}
-		
+
 		//query based on criteria
 		else {
 			//tell aggregation to perform

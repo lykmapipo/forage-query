@@ -35,6 +35,16 @@ function Query() {
 Query.prototype.Query = Query;
 
 
+/**
+ * @name _hasConditions
+ * @description check if query has conditions
+ * @return {Boolean}
+ */
+Query.prototype._hasConditions = function() {
+    var hasConditions = self._conditions && _.keys(self._conditions).length > 0;
+    return hasConditions;
+};
+
 
 /**
  * @function
@@ -135,6 +145,11 @@ Query.prototype.then = function(resolve, reject) {
  * @function
  * @description extend localForage with querying capabilities
  * @param  {Object} localForage an instance of localforage
+ * @param {Object} [promise]    promise implementation to use. default to
+ *                              native promise
+ *
+ * @return {Object} localforage instance with query capabilities
+ * @public
  */
 Query.extend = function(localForage, promise) {
     //set query Promise library else use native promise
@@ -178,5 +193,7 @@ Query.extend = function(localForage, promise) {
             return query[aggregator].call(query, criteria, done);
         };
     });
+
+    return self.localForage;
 
 };

@@ -51,8 +51,9 @@ Query.prototype.find = function(criteria, done) {
         }, function(error) {
             if (error) {
                 return done(error);
-            } else {
-                //TODO refactor
+            }
+            // cursor
+            else {
                 try {
 
                     //prepare result
@@ -60,30 +61,8 @@ Query.prototype.find = function(criteria, done) {
                         return self._buildItem(item.key, item.value);
                     });
 
-                    //build Mingo Cursor
-                    items =
-                        new Mingo.Cursor(items, self._conditions, self._projection);
-
-                    //apply skip and limit to cursor
-                    if (self._skip && self._limit) {
-                        items = items.skip(self._skip).limit(self._limit);
-                    }
-
-                    //apply sort to cursor
-                    if (self._sort) {
-                        items = items.sort(self._sort);
-                    }
-
-                    if (self._aggregation) {
-                        //TODO handle other aggregations
-                        items = items.count();
-                    } else {
-
-                        //fetch item(s)
-                        items =
-                            (self._limit && self._limit === 1) ?
-                            items.first() : items.all();
-                    }
+                    //cursor
+                    items = self._cursor(items);
 
                     //return item(s)
                     return done(null, items);
@@ -117,6 +96,7 @@ Query.prototype._passFilter = function(key, value) {
         _id: key
     });
 
+
     //clone conditions
     var conditions = _.clone(self._conditions);
 
@@ -127,4 +107,77 @@ Query.prototype._passFilter = function(key, value) {
     var pass = self._mingo.test(value);
 
     return pass;
+};
+
+
+/**
+ * @function
+ * @name _cursor
+ * @param  {Array<Object>} items collection of items
+ * @private
+ */
+Query.prototype._cursor = function(items) {
+    //jshint validthis:true
+    var self = this;
+
+    //build cursor
+    items =
+        new Mingo.Cursor(items, self._conditions, self._projection);
+
+    //apply skip and limit to cursor
+    if (self._skip && self._limit) {
+        items = items.skip(self._skip).limit(self._limit);
+    }
+
+    //apply sort to cursor
+    if (self._sort) {
+        items = items.sort(self._sort);
+    }
+
+    //TODO aggregations
+
+    if (self._aggregation) {
+        //TODO handle other aggregations
+        items = items.count();
+    }
+
+    //fetch single item
+    if (self._limit && self._limit === 1) {
+        items = items.first();
+    }
+
+    //fetch item(s)
+    else {
+        items = items.all();
+    }
+
+    return items;
+
+};
+
+
+/**
+ * @function
+ * @name _aggregate
+ * @param  {Array<Object>} items collection of items to apply 
+ *                               aggregation pipelines on
+ * @return {Array<Object>}
+ * @private            
+ */
+Query.prototype._aggregate = function(items) {
+    //jshint validthis:true
+    var self = this;
+
+    //TODO handle sort in aggregation pipeline
+
+    if (self._pipelines) {
+        var aggregator = new Mingo.Aggregator(self._pipelines);
+
+        items = aggregator.run(items);
+
+        return items;
+
+    } else {
+        return items;
+    }
 };

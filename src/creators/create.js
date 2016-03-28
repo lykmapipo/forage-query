@@ -1,6 +1,7 @@
 'use strict';
 
 //TODO add validation
+//TODO handle primitives type
 //TODO add beforeCreate
 //TODO add afterCreate
 
@@ -30,7 +31,7 @@ Query.prototype.create = function(data, done) {
     }
 
     //create single item
-    if (data && _.isPlainObject(data)) {
+    if (data && !_.isArray(data)) {
         //prepare id for storing an item
         self._id = data.id || data._id || uuid.v1();
 
@@ -81,6 +82,7 @@ Query.prototype.create = function(data, done) {
  * @param  {Array<Object>}   data collection of item to insert
  * @param  {Function} [done] callback to invoke on success or error
  * @return {Query}         query instance
+ * @private
  */
 Query.prototype._create = function(data, done) {
     /*jshint validthis:true*/
