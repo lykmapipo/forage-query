@@ -83,8 +83,9 @@ Query.prototype.then = function(resolve, reject) {
     var self = this;
 
     //TODO test angular 1.x promise
+    var _Promise = self.Promise;
 
-    var promise = new Query.Promise(function(_resolve, _reject) {
+    var promise = new Promise(function(_resolve, _reject) {
         self.exec(function(error, result) {
             if (error) {
                 _reject(error);
@@ -103,15 +104,25 @@ Query.prototype.then = function(resolve, reject) {
  * @description extend localForage with querying capabilities
  * @param  {Object} localForage an instance of localforage
  */
-Query.extend = function(localForage) {
+Query.extend = function(localForage, promise) {
+    //set query Promise library else use native promise
+    Query.prototype.Promise = promise || Promise;
+
     //set localForage reference in query
     Query.prototype.localForage = localForage;
 
-    //TODO bind Query methods into localForage instance
-};
+    //bind creators
+    _.forEach(['create', 'insert'], function(creator) {
+        //extend localforage with creators
+        localForage[creator] = function(data, done) {
+            //instantiate new query
+            var query = new Query();
 
-/**
- * @description use native promise by default
- * @type {[type]}
- */
-Query.Promise = Promise;
+            //create provided data
+            return query.create.call(query, data, done);
+        };
+    });
+
+    //TODO bind Query methods into localForage instance
+    //WARN! dont forget concurrency issues(parallel run)
+};

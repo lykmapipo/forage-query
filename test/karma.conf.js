@@ -28,9 +28,9 @@ module.exports = function(config) {
             'bower_components/localforage/dist/localforage.js',
             'bower_components/node-uuid/uuid.js',
             'bower_components/lodash/lodash.js',
+            'bower_components/Faker/build/build/faker.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-localforage/dist/angular-localForage.js',
-            'bower_components/Faker/build/build/faker.js',
             // endbower
             'src/EJSON.js',
             'src/selector.js',
