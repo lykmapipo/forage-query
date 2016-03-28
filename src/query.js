@@ -81,19 +81,32 @@ Query.prototype.exec = function exec(operation, callback) {
 Query.prototype.then = function(resolve, reject) {
     /*jshint validthis:true*/
     var self = this;
+    var promise;
 
-    //TODO test angular 1.x promise
-    var _Promise = self.Promise;
-
-    var promise = new Promise(function(_resolve, _reject) {
-        self.exec(function(error, result) {
-            if (error) {
-                _reject(error);
-            } else {
-                _resolve(result);
-            }
+    //test angular 1.x promise
+    if (!self.Promise.defer) {
+        promise = new self.Promise(function(_resolve, _reject) {
+            self.exec(function(error, result) {
+                if (error) {
+                    _reject(error);
+                } else {
+                    _resolve(result);
+                }
+            });
         });
-    });
+    }
+    // use angular 1.x $q promise
+    else {
+        promise = self.Promise(function(_resolve, _reject) {
+            self.exec(function(error, result) {
+                if (error) {
+                    _reject(error);
+                } else {
+                    _resolve(result);
+                }
+            });
+        });
+    }
 
     return promise.then(resolve, reject);
 };
