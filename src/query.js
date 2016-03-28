@@ -31,6 +31,10 @@ function Query() {
 }
 
 
+//reference Query
+Query.prototype.Query = Query;
+
+
 
 /**
  * @function
@@ -174,4 +178,5 @@ Query.extend = function(localForage, promise) {
             return query[aggregator].call(query, criteria, done);
         };
     });
+
 };

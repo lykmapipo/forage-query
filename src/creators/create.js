@@ -1,5 +1,9 @@
 'use strict';
 
+//TODO add validation
+//TODO add beforeCreate
+//TODO add afterCreate
+
 /**
  * @function
  * @description create an item from the provided data
@@ -9,20 +13,24 @@
  * @public
  */
 Query.prototype.create = function(data, done) {
-    //TODO should be able to batch create
-    
     /*jshint validthis:true*/
     var self = this;
-
-    //tell what operation to perform
-    self._operation = 'create';
 
     if (_.isFunction(data)) {
         done = data;
         data = undefined;
     }
 
-    if (data) {
+    //tell what operation to perform
+    self._operation = 'create';
+
+    //if is collection of items perform batch create
+    if (data && _.isArray(data)) {
+        self._create(data, done);
+    }
+
+    //create single item
+    if (data && _.isPlainObject(data)) {
         //prepare id for storing an item
         self._id = data.id || data._id || uuid.v1();
 
@@ -37,23 +45,74 @@ Query.prototype.create = function(data, done) {
     //execute query
     if (done && _.isFunction(done)) {
 
-        self.localForage.setItem(self._id, self._data, function(error, result) {
-            //if error back off
-            if (error) {
-                done(error);
-            }
+        //execute batch
+        if (self._creates) {
+            self._create(done);
+        }
+        //execute simple
+        else {
 
-            //return created item
-            else {
+            self.localForage.setItem(self._id, self._data, function(error, result) {
+                //if error back off
+                if (error) {
+                    done(error);
+                }
 
-                result = self._buildItem(self._id, result);
+                //return created item
+                else {
 
-                //we done return data
-                done(null, result);
-            }
-        });
+                    result = self._buildItem(self._id, result);
+
+                    //we done return data
+                    done(null, result);
+                }
+            });
+        }
     }
 
     //else return self
+    return self;
+};
+
+
+/**
+ * @function
+ * @name create
+ * @param  {Array<Object>}   data collection of item to insert
+ * @param  {Function} [done] callback to invoke on success or error
+ * @return {Query}         query instance
+ */
+Query.prototype._create = function(data, done) {
+    /*jshint validthis:true*/
+    var self = this;
+
+    if (_.isFunction(data)) {
+        done = data;
+        data = undefined;
+    }
+
+    if (data) {
+        //compact data
+        data = _.compact(data);
+
+        //prepare batch create
+        data = _.map(data, function(item) {
+            var query = new self.Query();
+            return query.create.call(query, item);
+        });
+
+        //perform batch creation
+        data = _.compact(data);
+        self._creates = self.Promise.all(data);
+    }
+
+    if (done && _.isFunction(done)) {
+        self._creates.then(function(results) {
+            return done(null, results);
+        }).catch(function(error) {
+            return done(error);
+        });
+    }
+
     return self;
 };

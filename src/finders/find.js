@@ -52,7 +52,7 @@ Query.prototype.find = function(criteria, done) {
             if (error) {
                 return done(error);
             } else {
-
+                //TODO refactor
                 try {
 
                     //prepare result

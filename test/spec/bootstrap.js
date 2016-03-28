@@ -11,6 +11,17 @@ before(function(done) {
 	done();
 });
 
+//prepare seeds
+before(function(done) {
+	this.items = [];
+
+	for (var i = 0; i < 20; i++) {
+		this.items.push(faker.helpers.contextualCard());
+	}
+
+	done();
+});
+
 //clear localforage
 before(function(done) {
 	localforage.clear(done);
