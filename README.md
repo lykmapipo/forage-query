@@ -14,7 +14,7 @@ Query builder for [localForage](https://github.com/mozilla/localForage)
 
 ## Install
 ```sh
-$ bower install --save forage-query
+$ bower install --save forageQuery
 ```
 ## Usage
 - Include `forageQuery` into your app index.html 
@@ -30,7 +30,7 @@ $ bower install --save forage-query
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/forage-query/dist/forageQuery.js"></script>
+    <script src="bower_components/forageQuery/dist/forageQuery.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
