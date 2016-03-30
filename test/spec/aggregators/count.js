@@ -1,13 +1,13 @@
 'use strict';
 
-var person;
+var item;
 
 describe('Query#aggregate#count', function() {
 
     before(function(done) {
-        var _person = faker.helpers.contextualCard();
-        localforage.create(_person, function(error, createdPerson) {
-            person = createdPerson;
+        var _item = this.items(1)[0];
+        localforage.create(_item, function(error, createdPerson) {
+            item = createdPerson;
             done(error, createdPerson);
         });
     });
@@ -23,7 +23,7 @@ describe('Query#aggregate#count', function() {
     it('should be able to count items by specified criteria using callback style', function(done) {
 
         localforage.count({
-            name: person.name
+            name: item.name
         }, function(error, count) {
 
             expect(error).to.not.exist;
@@ -37,7 +37,7 @@ describe('Query#aggregate#count', function() {
 
         localforage
             .count({
-                name: person.name
+                name: item.name
             })
             .exec(function(error, count) {
 
@@ -52,7 +52,7 @@ describe('Query#aggregate#count', function() {
 
         localforage
             .count({
-                name: person.name
+                name: item.name
             })
             .then(function(count) {
 

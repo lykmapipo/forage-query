@@ -11,50 +11,50 @@ describe('Query#create', function() {
     describe('simple item', function() {
 
         it('should be able to create an item using callback style', function(done) {
-            var person = faker.helpers.contextualCard();
+            var item = this.items(1)[0];
 
-            localforage.create(person, function(error, createdPerson) {
+            localforage.create(item, function(error, createdItem) {
 
                 expect(error).to.be.null;
-                expect(createdPerson).to.exist;
-                expect(createdPerson.id).to.exist;
-                expect(createdPerson._id).to.exist;
-                expect(createdPerson.name).to.equal(person.name);
+                expect(createdItem).to.exist;
+                expect(createdItem.id).to.exist;
+                expect(createdItem._id).to.exist;
+                expect(createdItem.name).to.equal(item.name);
 
-                done(error, createdPerson);
+                done(error, createdItem);
             });
         });
 
 
         it('should be able to create an item using defer style', function(done) {
-            var person = faker.helpers.contextualCard();
+            var item = this.items(1)[0];
 
             localforage
-                .create(person)
-                .exec(function(error, createdPerson) {
+                .create(item)
+                .exec(function(error, createdItem) {
 
                     expect(error).to.be.null;
-                    expect(createdPerson).to.exist;
-                    expect(createdPerson.id).to.exist;
-                    expect(createdPerson._id).to.exist;
-                    expect(createdPerson.name).to.equal(person.name);
+                    expect(createdItem).to.exist;
+                    expect(createdItem.id).to.exist;
+                    expect(createdItem._id).to.exist;
+                    expect(createdItem.name).to.equal(item.name);
 
-                    done(error, createdPerson);
+                    done(error, createdItem);
                 });
         });
 
 
         it('should be able to create an item using promise style', function(done) {
-            var person = faker.helpers.contextualCard();
+            var item = this.items(1)[0];
 
             localforage
-                .create(person)
-                .then(function(createdPerson) {
+                .create(item)
+                .then(function(createdItem) {
 
-                    expect(createdPerson).to.exist;
-                    expect(createdPerson.id).to.exist;
-                    expect(createdPerson._id).to.exist;
-                    expect(createdPerson.name).to.equal(person.name);
+                    expect(createdItem).to.exist;
+                    expect(createdItem.id).to.exist;
+                    expect(createdItem._id).to.exist;
+                    expect(createdItem.name).to.equal(item.name);
 
                     done();
                 });
@@ -65,59 +65,59 @@ describe('Query#create', function() {
     describe('batch items', function() {
         
         it('should be able to create items using callback style', function(done) {
-            var people = this.items(2);
+            var items = this.items(2);
 
-            localforage.create(people, function(error, createdPeople) {
+            localforage.create(items, function(error, createdItems) {
 
                 expect(error).to.be.null;
-                expect(createdPeople).to.exist;
-                expect(createdPeople[0].id).to.exist;
-                expect(createdPeople[0]._id).to.exist;
-                expect(createdPeople[1].id).to.exist;
-                expect(createdPeople[1]._id).to.exist;
-                expect(createdPeople[0].name).to.equal(people[0].name);
-                expect(createdPeople[1].name).to.equal(people[1].name);
+                expect(createdItems).to.exist;
+                expect(createdItems[0].id).to.exist;
+                expect(createdItems[0]._id).to.exist;
+                expect(createdItems[1].id).to.exist;
+                expect(createdItems[1]._id).to.exist;
+                expect(createdItems[0].name).to.equal(items[0].name);
+                expect(createdItems[1].name).to.equal(items[1].name);
 
-                done(error, createdPeople);
+                done(error, createdItems);
             });
         });
 
         it('should be able to create items using defer style', function(done) {
-            var people = this.items(2);
+            var items = this.items(2);
 
             localforage
-                .create(people)
-                .exec(function(error, createdPeople) {
+                .create(items)
+                .exec(function(error, createdItems) {
 
                     expect(error).to.be.null;
-                    expect(createdPeople).to.exist;
-                    expect(createdPeople[0].id).to.exist;
-                    expect(createdPeople[0]._id).to.exist;
-                    expect(createdPeople[1].id).to.exist;
-                    expect(createdPeople[1]._id).to.exist;
-                    expect(createdPeople[0].name).to.equal(people[0].name);
-                    expect(createdPeople[1].name).to.equal(people[1].name);
+                    expect(createdItems).to.exist;
+                    expect(createdItems[0].id).to.exist;
+                    expect(createdItems[0]._id).to.exist;
+                    expect(createdItems[1].id).to.exist;
+                    expect(createdItems[1]._id).to.exist;
+                    expect(createdItems[0].name).to.equal(items[0].name);
+                    expect(createdItems[1].name).to.equal(items[1].name);
 
-                    done(error, createdPeople);
+                    done(error, createdItems);
                 });
         });
 
         it('should be able to create items using promise style', function(done) {
-            var people = this.items(2);
+            var items = this.items(2);
 
             localforage
-                .create(people)
-                .then(function(createdPeople) {
+                .create(items)
+                .then(function(createdItems) {
 
-                    expect(createdPeople).to.exist;
-                    expect(createdPeople[0].id).to.exist;
-                    expect(createdPeople[0]._id).to.exist;
-                    expect(createdPeople[1].id).to.exist;
-                    expect(createdPeople[1]._id).to.exist;
-                    expect(createdPeople[0].name).to.equal(people[0].name);
-                    expect(createdPeople[1].name).to.equal(people[1].name);
+                    expect(createdItems).to.exist;
+                    expect(createdItems[0].id).to.exist;
+                    expect(createdItems[0]._id).to.exist;
+                    expect(createdItems[1].id).to.exist;
+                    expect(createdItems[1]._id).to.exist;
+                    expect(createdItems[0].name).to.equal(items[0].name);
+                    expect(createdItems[1].name).to.equal(items[1].name);
 
-                    done(null, createdPeople);
+                    done(null, createdItems);
 
                 }).catch(function(error) {
                     done(error);

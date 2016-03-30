@@ -13,7 +13,6 @@ describe('Query#findByIdAndRemove', function() {
 
     it('should be able to remove an item using callback style', function(done) {
         localforage.findByIdAndRemove(items[0].id, function(error, removedItem) {
-            console.log(error);
             expect(error).to.not.exist;
             expect(removedItem).to.exist;
             expect(removedItem.name).to.be.equal(items[0].name);
