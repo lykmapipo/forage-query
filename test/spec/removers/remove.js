@@ -4,7 +4,7 @@ var items;
 
 describe('Query#remove', function() {
 
-    beforeEach(function(done) {
+    before(function(done) {
         localforage.create(this.items(), function(error, createdItems) {
             items = createdItems;
             done(error, createdItems);
@@ -12,7 +12,11 @@ describe('Query#remove', function() {
     });
 
     it('should be able to remove items using callback style', function(done) {
-        localforage.remove(function(error, removedItems) {
+        var criteria = {
+            name: items[0].name
+        };
+
+        localforage.remove(criteria, function(error, removedItems) {
             expect(error).to.not.exist;
             expect(removedItems).to.exist;
             done(error, removedItems);
@@ -20,7 +24,11 @@ describe('Query#remove', function() {
     });
 
     it('should be able to remove items using deffered style', function(done) {
-        localforage.remove().exec(function(error, removedItems) {
+        var criteria = {
+            name: items[1].name
+        };
+
+        localforage.remove(criteria).exec(function(error, removedItems) {
             expect(error).to.not.exist;
             expect(removedItems).to.exist;
             done(error, removedItems);
@@ -28,7 +36,11 @@ describe('Query#remove', function() {
     });
 
     it('should be able to remove items using promise style', function(done) {
-        localforage.remove().then(function(removedItems) {
+        var criteria = {
+            name: items[2].name
+        };
+
+        localforage.remove(criteria).then(function(removedItems) {
             expect(removedItems).to.exist;
             done(null, removedItems);
         }).catch(function(error) {
@@ -36,18 +48,8 @@ describe('Query#remove', function() {
         });
     });
 
-
-    it('should be able to remove items using specified criteria', function(done) {
-        var criteria = {
-            name: items[1].name
-        };
-
-        localforage.remove(criteria, function(error, removedItems) {
-            expect(error).to.not.exist;
-            expect(removedItems).to.exist;
-            expect(removedItems).to.have.length(1);
-            done(error, removedItems);
-        });
+    after(function(done) {
+        localforage.remove(done);
     });
 
 });
