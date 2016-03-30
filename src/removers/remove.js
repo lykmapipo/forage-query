@@ -8,8 +8,30 @@
  */
 Query.prototype.remove = function(criteria, done) {
 	// jshint validthis:true
-	if (done) {
-		//run query
+	var self = this;
+
+	//normalize arguments
+	if (criteria && _.isFunction(criteria)) {
+		done = criteria;
+		criteria = {};
+	}
+
+	//find items to remove
+	self._removes = self.find(criteria);
+
+	//remove items
+	if (done && _.isFunction(done)) {
+		self._removes.then(function(items) {
+			//update _removes reference
+			self._removes = items;
+
+			//perfom remove
+			return self._remove();
+		}).then(function(items) {
+			done(null, items);
+		}).catch(function(error) {
+			done(error);
+		});
 	}
 
 	return self;
@@ -19,29 +41,23 @@ Query.prototype.remove = function(criteria, done) {
 /**
  * @function
  * @name _remove
- * @param  {Array<String>}   keys valid item keys
- * @param  {Function} done   a callback to invoke on success or error
+ * @description remove current items in query _removes queue(collection)
  * @private
  */
-Query.prototype._remove = function(keys, done) {
+Query.prototype._remove = function() {
 	//jshint validthis:true
 	var self = this;
 
 	//prepare removes
-	self._removes = _.map(keys, function(key) {
-		return self.localForage.removeItem(key);
+	var removes = _.map(self._removes, function(item) {
+		return self.localForage.removeItem(item.id || item._id);
 	});
 
 	//perform batch remove
-	self._removes = self.Promise.all(data);
+	removes = self.Promise.all(removes);
 
-	if (done && _.isFunction(done)) {
-		self._removes.then(function(results) {
-			return done(null, results);
-		}).catch(function(error) {
-			return done(error);
-		});
-	}
-
-	return self;
+	return removes.then(function( /*results*/ ) {
+		//return removed items
+		return self._removes;
+	});
 };

@@ -182,6 +182,18 @@ Query.extend = function(localForage, promise) {
         };
     });
 
+    //bind removers
+    _.forEach(['remove', 'findByIdAndRemove'], function(remover) {
+        //extend localforage with removers
+        localForage[remover] = function(criteria, done) {
+            //instantiate new query
+            var query = new Query();
+
+            //expose remover
+            return query[remover].call(query, criteria, done);
+        };
+    });
+
     //bind default aggregator
     _.forEach(['count'], function(aggregator) {
         //extend localforage with aggregators

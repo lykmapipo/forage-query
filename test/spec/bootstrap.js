@@ -15,7 +15,7 @@ before(function(done) {
 before(function(done) {
 	this.items = [];
 
-	for (var i = 0; i < 20; i++) {
+	for (var i = 0; i < 5; i++) {
 		this.items.push(faker.helpers.contextualCard());
 	}
 

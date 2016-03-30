@@ -13,7 +13,8 @@ Query.prototype.find = function(criteria, done) {
     //tell what operation to perform
     self._operation = 'find';
 
-    if (_.isFunction(criteria)) {
+    //normalize arguments
+    if (criteria && _.isFunction(criteria)) {
         done = criteria;
         criteria = undefined;
     }
