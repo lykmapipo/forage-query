@@ -47,5 +47,8 @@
       "main": "mingo.js",
       "dependencies": {}
     }
-  }
+  },
+  "resolutions": {
+    "angular": ">= 1.5.3"
+  },
 }
