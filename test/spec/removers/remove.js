@@ -15,7 +15,6 @@ describe('Query#remove', function() {
         localforage.remove(function(error, removedItems) {
             expect(error).to.not.exist;
             expect(removedItems).to.exist;
-            expect(removedItems).to.have.length(items.length);
             done(error, removedItems);
         });
     });
@@ -24,7 +23,6 @@ describe('Query#remove', function() {
         localforage.remove().exec(function(error, removedItems) {
             expect(error).to.not.exist;
             expect(removedItems).to.exist;
-            expect(removedItems).to.have.length(items.length);
             done(error, removedItems);
         });
     });
@@ -32,7 +30,6 @@ describe('Query#remove', function() {
     it('should be able to remove items using promise style', function(done) {
         localforage.remove().then(function(removedItems) {
             expect(removedItems).to.exist;
-            expect(removedItems).to.have.length(items.length);
             done(null, removedItems);
         }).catch(function(error) {
             done(error);

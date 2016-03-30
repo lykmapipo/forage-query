@@ -83,11 +83,7 @@
 - [ ] `exists`
 - [ ] `find`
 - [ ] `findById`
-- [ ] `findByIdAndRemove`
-- [ ] `findByIdAndUpdate`
 - [ ] `findOne`
-- [ ] `findOneAnRemove`
-- [ ] `findOneAndUpdate`
 - [ ] `in`
 - [ ] `nin`
 - [ ] `or`
@@ -114,7 +110,10 @@
 ## Update
 - [ ] `update`
 - [ ] `upsert`
+- [ ] `findByIdAndUpdate`
+- [ ] `findOneAndUpdate`
 
 ## Delete
-- [ ] `remove`
-- [ ] `delete`
+- [x] `remove`
+- [x] `findByIdAndRemove`
+- [x] `findOneAndRemove`
