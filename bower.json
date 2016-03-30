@@ -38,8 +38,6 @@
   },
   "devDependencies": {
     "Faker": "~2.1.2",
-    "angular": "~1.5.3",
-    "angular-localforage": "~1.2.5",
     "mingo": "~0.6.3"
   },
   "overrides": {
@@ -47,8 +45,5 @@
       "main": "mingo.js",
       "dependencies": {}
     }
-  },
-  "resolutions": {
-    "angular": ">= 1.5.3"
   }
 }
