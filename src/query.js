@@ -183,7 +183,7 @@ Query.extend = function(localForage, promise) {
     });
 
     //bind removers
-    _.forEach(['remove', 'findByIdAndRemove'], function(remover) {
+    _.forEach(['remove', 'findByIdAndRemove', 'findOneAndRemove'], function(remover) {
         //extend localforage with removers
         localForage[remover] = function(criteria, done) {
             //instantiate new query

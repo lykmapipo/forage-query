@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @description remove an item based on criteria provided
+ * @description remove existing item(s) using specified criteria
  * @param {Object} [criteria]  selector
  * @param  {Function} [done]   a callback to invoke on success or error
  * @return {Query}             query instance
@@ -10,14 +10,19 @@ Query.prototype.remove = function(criteria, done) {
 	// jshint validthis:true
 	var self = this;
 
+	//tell what operation to perform
+	self._operation = 'remove';
+
 	//normalize arguments
 	if (criteria && _.isFunction(criteria)) {
 		done = criteria;
 		criteria = {};
 	}
 
-	//find items to remove
-	self._removes = self.find(criteria);
+	if (criteria) {
+		//find items to remove
+		self._removes = self.find(criteria);
+	}
 
 	//remove items
 	if (done && _.isFunction(done)) {
@@ -49,7 +54,7 @@ Query.prototype._remove = function() {
 	var self = this;
 
 	//prepare removes
-	var removes = _.map(self._removes, function(item) {
+	var removes = _.map([].concat(self._removes), function(item) {
 		return self.localForage.removeItem(item.id || item._id);
 	});
 

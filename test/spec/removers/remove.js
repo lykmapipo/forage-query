@@ -5,7 +5,7 @@ var items;
 describe('Query#remove', function() {
 
     beforeEach(function(done) {
-        localforage.create(this.items, function(error, createdItems) {
+        localforage.create(this.items(), function(error, createdItems) {
             items = createdItems;
             done(error, createdItems);
         });
@@ -39,7 +39,7 @@ describe('Query#remove', function() {
 
     it('should be able to remove items using specified criteria', function(done) {
         var criteria = {
-            name: this.items[1].name
+            name: items[1].name
         };
 
         localforage.remove(criteria, function(error, removedItems) {

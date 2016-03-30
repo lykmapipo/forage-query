@@ -13,10 +13,17 @@ before(function(done) {
 
 //prepare seeds
 before(function(done) {
-	this.items = [];
 
-	for (var i = 0; i < 5; i++) {
-		this.items.push(faker.helpers.contextualCard());
+	this.items = function(size) {
+		size = size || 5;
+
+		var items = [];
+
+		for (var i = 0; i < size; i++) {
+			items.push(faker.helpers.contextualCard());
+		}
+		
+		return items;
 	}
 
 	done();

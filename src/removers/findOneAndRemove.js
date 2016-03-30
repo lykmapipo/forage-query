@@ -1,14 +1,27 @@
 'use strict';
 
 /**
- * @description remove an item based on criteria provided
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * @function
+ * @description remove existing item using specified criteria
+ * @param  {Function} [done]  a callback to invoke on success or error
+ * @return {Query}            query instance
+ * @public
  */
-Query.prototype.remove = function(callback) {
-    if (callback) {
-        //run query
-    } else {
-        return this;
-    }
+Query.prototype.findOneAndRemove = function(criteria, done) {
+	//jshint validthis:true
+	var self = this;
+
+	//normalize arguments
+	if (criteria && _.isFunction(criteria)) {
+		done = criteria;
+		criteria = {};
+	}
+
+	//prepare criteria
+	if (criteria) {
+		//ensure limit
+		self.limit(1);
+	}
+
+	return self.remove(criteria, done);
 };
