@@ -1,14 +1,14 @@
 'use strict';
 
-var item;
 
 describe('Query#aggregate#count', function() {
 
+    var item;
+
     before(function(done) {
-        var _item = this.items(1)[0];
-        localforage.create(_item, function(error, createdPerson) {
-            item = createdPerson;
-            done(error, createdPerson);
+        localforage.create(this.items(1), function(error, createdItem) {
+            item = createdItem;
+            done(error, createdItem);
         });
     });
 
@@ -44,7 +44,7 @@ describe('Query#aggregate#count', function() {
                 expect(error).to.be.null;
                 expect(count).to.exist;
 
-                done();
+                done(null, count);
             });
     });
 
@@ -58,9 +58,14 @@ describe('Query#aggregate#count', function() {
 
                 expect(count).to.exist;
 
-                done();
-            }).catch(function(error) {
-                done(error);
-            });
+                done(null, count);
+            }).catch(done);
     });
+
+    after(function(done) {
+        localforage.remove({
+            id: item.id
+        }, done);
+    });
+
 });

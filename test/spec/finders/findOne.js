@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('Query#findOne', function() {
+describe('Query#findOne', function() {
 
     var item;
 

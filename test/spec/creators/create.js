@@ -20,7 +20,7 @@ describe('Query#create', function() {
     describe('simple item', function() {
 
         it('should be able to create an item using callback style', function(done) {
-            var item = this.items(1)[0];
+            var item = this.items(1);
 
             localforage.create(item, function(error, createdItem) {
 
@@ -38,7 +38,7 @@ describe('Query#create', function() {
 
 
         it('should be able to create an item using defer style', function(done) {
-            var item = this.items(1)[0];
+            var item = this.items(1);
 
             localforage
                 .create(item)
@@ -58,7 +58,7 @@ describe('Query#create', function() {
 
 
         it('should be able to create an item using promise style', function(done) {
-            var item = this.items(1)[0];
+            var item = this.items(1);
 
             localforage
                 .create(item)
