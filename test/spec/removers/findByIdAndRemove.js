@@ -1,8 +1,9 @@
 'use strict';
 
-var items;
 
 describe('Query#findByIdAndRemove', function() {
+
+    var items;
 
     before(function(done) {
         localforage.create(this.items(), function(error, createdItems) {
@@ -41,7 +42,11 @@ describe('Query#findByIdAndRemove', function() {
 
 
     after(function(done) {
-        localforage.remove(done);
+        localforage.remove({
+            id: {
+                $in: _.map(items, '_id')
+            }
+        }, done);
     });
 
 });

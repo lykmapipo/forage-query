@@ -148,7 +148,7 @@ describe('Query#create', function() {
     });
 
     after(function(done) {
-        var ids = _.compact(_.map(items, 'id'));
+        var ids = _.compact(_.map(items, '_id'));
 
         localforage.remove({
             id: {
