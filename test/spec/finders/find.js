@@ -1,29 +1,29 @@
 'use strict';
 
-var person;
-
 describe('Query#find', function() {
+
+    var items;
+    var item;
+
     before(function(done) {
-
-        var _person = faker.helpers.contextualCard();
-
-        localforage.create(_person, function(error, createdPerson) {
-            person = createdPerson;
-            done(error, createdPerson);
+        localforage.create(this.items(), function(error, createdItems) {
+            items = createdItems;
+            item = items[0];
+            done(error, createdItems);
         });
     });
 
     it('should be able to find an item by its id using callback style', function(done) {
 
         localforage.find({
-            id: person.id
-        }, function(error, foundPerson) {
+            id: item.id
+        }, function(error, foundItem) {
 
             expect(error).to.be.null;
-            expect(foundPerson).to.exist;
-            expect(foundPerson.name).to.equal(person.name);
+            expect(foundItem).to.exist;
+            expect(foundItem.name).to.equal(item.name);
 
-            done(error, foundPerson);
+            done(error, foundItem);
         });
     });
 
@@ -31,13 +31,13 @@ describe('Query#find', function() {
 
         localforage
             .find({
-                id: person.id
+                id: item.id
             })
-            .exec(function(error, foundPerson) {
+            .exec(function(error, foundItem) {
 
                 expect(error).to.be.null;
-                expect(foundPerson).to.exist;
-                expect(foundPerson.name).to.equal(person.name);
+                expect(foundItem).to.exist;
+                expect(foundItem.name).to.equal(item.name);
 
                 done();
             });
@@ -47,14 +47,23 @@ describe('Query#find', function() {
 
         localforage
             .find({
-                id: person.id
+                id: item.id
             })
-            .then(function(foundPerson) {
+            .then(function(foundItem) {
 
-                expect(foundPerson).to.exist;
-                expect(foundPerson.name).to.equal(person.name);
+                expect(foundItem).to.exist;
+                expect(foundItem.name).to.equal(item.name);
 
                 done();
             });
     });
+
+    after(function(done) {
+        localforage.remove({
+            id: {
+                $in: _.map(items, '_id')
+            }
+        }, done);
+    });
+
 });

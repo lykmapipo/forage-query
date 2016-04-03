@@ -22,8 +22,8 @@ before(function(done) {
 		for (var i = 0; i < size; i++) {
 			items.push(faker.helpers.contextualCard());
 		}
-		
-		return items;
+
+		return size === 1 ? _.first(items) : items;
 	}
 
 	done();

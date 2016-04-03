@@ -1,46 +1,52 @@
 'use strict';
 
-var person;
-
 describe('Query#findById', function() {
+
+    var item;
+
     before(function(done) {
-        var _person = faker.helpers.contextualCard();
-        localforage.create(_person, function(error, createdPerson) {
-            person = createdPerson;
-            done(error, createdPerson);
+        localforage.create(this.items(1), function(error, createdItem) {
+            item = createdItem;
+            done(error, createdItem);
         });
     });
 
     it('should be able to find an item by its id using callback style', function(done) {
-        localforage.findById(person.id, function(error, foundPerson) {
+        localforage.findById(item.id, function(error, foundItem) {
 
             expect(error).to.be.null;
-            expect(foundPerson).to.exist;
-            expect(foundPerson.name).to.equal(person.name);
+            expect(foundItem).to.exist;
+            expect(foundItem.name).to.equal(item.name);
 
-            done();
+            done(error, foundItem);
         });
     });
 
     it('should be able to find an item by its id using defer style', function(done) {
-        localforage.findById(person.id).exec(function(error, foundPerson) {
+        localforage.findById(item.id).exec(function(error, foundItem) {
 
             expect(error).to.be.null;
-            expect(foundPerson).to.exist;
-            expect(foundPerson.name).to.equal(person.name);
+            expect(foundItem).to.exist;
+            expect(foundItem.name).to.equal(item.name);
 
-            done();
+            done(error, foundItem);
         });
     });
 
     it('should be able to find an item by its id using promise style', function(done) {
-        localforage.findById(person.id).then(function(foundPerson) {
+        localforage.findById(item.id).then(function(foundItem) {
 
-            expect(foundPerson).to.exist;
-            expect(foundPerson.name).to.equal(person.name);
+            expect(foundItem).to.exist;
+            expect(foundItem.name).to.equal(item.name);
 
-            done();
-        });
+            done(null, foundItem);
+        }).catch(done);
+    });
+
+    after(function(done) {
+        localforage.remove({
+            id: item.id
+        }, done);
     });
 
 });
