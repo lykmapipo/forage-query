@@ -195,6 +195,18 @@ Query.extend = function(localForage, promise) {
         };
     });
 
+    //bind updators
+    _.forEach(['update', 'findByIdAndUpdate', 'findOneAndUpdate'], function(updator) {
+        //extend localforage with updators
+        localForage[updator] = function(criteria, done) {
+            //instantiate new query
+            var query = new Query();
+
+            //expose updator
+            return query[updator].call(query, criteria, done);
+        };
+    });
+
     //bind default aggregator
     _.forEach(['count'], function(aggregator) {
         //extend localforage with aggregators
