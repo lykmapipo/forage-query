@@ -1,6 +1,15 @@
 'use strict';
 
-describe('Query#create', function() {
+
+
+describe.only('Query#create', function() {
+    //reference
+    var items = [];
+
+    function collect(item) {
+        item = _.isArray(item) ? item : [item]
+        items = items.concat(item);
+    }
 
     it('should be a function', function(done) {
         expect(localforage.create).to.be.a('function');
@@ -21,6 +30,8 @@ describe('Query#create', function() {
                 expect(createdItem._id).to.exist;
                 expect(createdItem.name).to.equal(item.name);
 
+                collect(createdItem);
+
                 done(error, createdItem);
             });
         });
@@ -39,6 +50,8 @@ describe('Query#create', function() {
                     expect(createdItem._id).to.exist;
                     expect(createdItem.name).to.equal(item.name);
 
+                    collect(createdItem);
+
                     done(error, createdItem);
                 });
         });
@@ -56,6 +69,8 @@ describe('Query#create', function() {
                     expect(createdItem._id).to.exist;
                     expect(createdItem.name).to.equal(item.name);
 
+                    collect(createdItem);
+
                     done();
                 });
         });
@@ -63,7 +78,7 @@ describe('Query#create', function() {
     });
 
     describe('batch items', function() {
-        
+
         it('should be able to create items using callback style', function(done) {
             var items = this.items(2);
 
@@ -77,6 +92,8 @@ describe('Query#create', function() {
                 expect(createdItems[1]._id).to.exist;
                 expect(createdItems[0].name).to.equal(items[0].name);
                 expect(createdItems[1].name).to.equal(items[1].name);
+
+                collect(createdItems);
 
                 done(error, createdItems);
             });
@@ -98,6 +115,8 @@ describe('Query#create', function() {
                     expect(createdItems[0].name).to.equal(items[0].name);
                     expect(createdItems[1].name).to.equal(items[1].name);
 
+                    collect(createdItems);
+
                     done(error, createdItems);
                 });
         });
@@ -117,6 +136,8 @@ describe('Query#create', function() {
                     expect(createdItems[0].name).to.equal(items[0].name);
                     expect(createdItems[1].name).to.equal(items[1].name);
 
+                    collect(createdItems);
+
                     done(null, createdItems);
 
                 }).catch(function(error) {
@@ -124,6 +145,16 @@ describe('Query#create', function() {
                 });
         });
 
+    });
+
+    after(function(done) {
+        var ids = _.compact(_.map(items, 'id'));
+
+        localforage.remove({
+            id: {
+                $in: ids
+            }
+        }, done);
     });
 
 });

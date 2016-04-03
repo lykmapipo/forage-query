@@ -26,9 +26,14 @@ Query.prototype.find = function(criteria, done) {
 
     //execute query
     if (done && _.isFunction(done)) {
-        //if there is id in condition clause
+        //if there is id or _id in condition clause
         //get item by its id
-        if (self._conditions.id || self._conditions._id) {
+        var hasId = (_.has(self._conditions, 'id') ||
+                _.has(self._conditions, '_id')) &&
+            (_.get(self._conditions, 'id.$eq') ||
+                _.get(self._conditions, '_id.$eq'));
+
+        if (hasId) {
             var id = self._conditions.id.$eq || self._conditions._id.$eq;
             self.localForage.getItem(id, function(error, value) {
                 return done(error, self._buildItem(id, value));

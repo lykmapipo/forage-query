@@ -6,6 +6,7 @@ describe('Query#remove', function() {
 
     before(function(done) {
         localforage.create(this.items(), function(error, createdItems) {
+            console.log('called');
             items = createdItems;
             done(error, createdItems);
         });
