@@ -10,6 +10,7 @@ if (_ && !_.contains) {
  * @description localForage query builder
  */
 function Query() {
+    //TODO make use of condition builder on top of Mingo.Query
     //initialize empty condition collection
     this._conditions = {};
 

@@ -27,7 +27,7 @@ Query.prototype.create = function(data, done) {
 
     //if is collection of items perform batch create
     if (data && _.isArray(data)) {
-        self._create(data, done);
+        self._create(data);
     }
 
     //create single item

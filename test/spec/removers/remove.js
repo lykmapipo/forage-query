@@ -1,12 +1,12 @@
 'use strict';
 
-var items;
 
 describe('Query#remove', function() {
 
+    var items;
+
     before(function(done) {
         localforage.create(this.items(), function(error, createdItems) {
-            console.log('called');
             items = createdItems;
             done(error, createdItems);
         });
@@ -50,7 +50,11 @@ describe('Query#remove', function() {
     });
 
     after(function(done) {
-        localforage.remove(done);
+        localforage.remove({
+            id: {
+                $in: _.map(items, '_id')
+            }
+        }, done);
     });
 
 });

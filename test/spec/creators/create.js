@@ -2,7 +2,7 @@
 
 
 
-describe.only('Query#create', function() {
+describe('Query#create', function() {
     //reference
     var items = [];
 
