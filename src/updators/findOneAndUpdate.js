@@ -19,7 +19,7 @@ Query.prototype.findOneAndUpdate = function(criteria, data, done) {
 		criteria = {};
 	}
 
-	//prepare criteria
+	//ensure limit
 	if (criteria) {
 		//ensure limit
 		self.limit(1);

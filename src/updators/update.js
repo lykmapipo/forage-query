@@ -84,6 +84,6 @@ Query.prototype._update = function() {
 
 	return updates.then(function(results) {
 		//return updated items
-		return results;
+		return (self._limit && self._limit === 1) ? _.first(results) : results;
 	});
 };
