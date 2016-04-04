@@ -16,8 +16,8 @@
 
 /**
  * Query builder for localForage
- * @version v0.1.0 - Mon Apr 04 2016 18:12:34
- * @link https://github.com/lykmapipo/forageQuery
+ * @version v0.1.0 - Mon Apr 04 2016 18:16:35
+ * @link https://github.com/lykmapipo/forage-query
  * @authors lykmapipo <lallyelias87@gmail.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
