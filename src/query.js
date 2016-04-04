@@ -42,6 +42,8 @@ Query.prototype.Query = Query;
  * @return {Boolean}
  */
 Query.prototype._hasConditions = function() {
+    /*jshint validthis:true*/
+    var self = this;
     var hasConditions = self._conditions && _.keys(self._conditions).length > 0;
     return hasConditions;
 };
@@ -198,12 +200,12 @@ Query.extend = function(localForage, promise) {
     //bind updators
     _.forEach(['update', 'findByIdAndUpdate', 'findOneAndUpdate'], function(updator) {
         //extend localforage with updators
-        localForage[updator] = function(criteria, done) {
+        localForage[updator] = function(criteria, data, done) {
             //instantiate new query
             var query = new Query();
 
             //expose updator
-            return query[updator].call(query, criteria, done);
+            return query[updator].call(query, criteria, data, done);
         };
     });
 
@@ -219,6 +221,6 @@ Query.extend = function(localForage, promise) {
         };
     });
 
-    return self.localForage;
+    return this.localForage;
 
 };

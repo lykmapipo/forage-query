@@ -24,7 +24,7 @@ before(function(done) {
 		}
 
 		return size === 1 ? _.first(items) : items;
-	}
+	};
 
 	done();
 });

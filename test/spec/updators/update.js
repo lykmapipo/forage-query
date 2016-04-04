@@ -12,41 +12,77 @@ describe.only('Query#update', function() {
         });
     });
 
-    it('should be able to remove items using callback style', function(done) {
+    it('should be able to update items using callback style', function(done) {
         var criteria = {
             name: items[0].name
         };
 
-        localforage.remove(criteria, function(error, removedItems) {
+        var update = {
+            name: faker.name.findName()
+        };
+
+        localforage.update(criteria, update, function(error, updatedItems) {
             expect(error).to.not.exist;
-            expect(removedItems).to.exist;
-            done(error, removedItems);
+            expect(updatedItems).to.exist;
+            expect(updatedItems[0].name).to.equal(update.name);
+            expect(updatedItems[0].name).to.not.equal(criteria.name);
+            done(error, updatedItems);
         });
     });
 
-    it('should be able to remove items using deffered style', function(done) {
+    it('should be able to update items using deffered style', function(done) {
         var criteria = {
             name: items[1].name
         };
 
-        localforage.remove(criteria).exec(function(error, removedItems) {
+        var update = {
+            name: faker.name.findName()
+        };
+
+        localforage.update(criteria, update).exec(function(error, updatedItems) {
             expect(error).to.not.exist;
-            expect(removedItems).to.exist;
-            done(error, removedItems);
+            expect(updatedItems).to.exist;
+            expect(updatedItems[0].name).to.equal(update.name);
+            expect(updatedItems[0].name).to.not.equal(criteria.name);
+            done(error, updatedItems);
         });
     });
 
-    it('should be able to remove items using promise style', function(done) {
+    it('should be able to update items using promise style', function(done) {
         var criteria = {
             name: items[2].name
         };
 
-        localforage.remove(criteria).then(function(removedItems) {
-            expect(removedItems).to.exist;
-            done(null, removedItems);
-        }).catch(function(error) {
-            done(error);
-        });
+        var update = {
+            name: faker.name.findName()
+        };
+
+        localforage.update(criteria, update).then(function(updatedItems) {
+            expect(updatedItems).to.exist;
+            expect(updatedItems[0].name).to.equal(update.name);
+            expect(updatedItems[0].name).to.not.equal(criteria.name);
+            done(null, updatedItems);
+        }).catch(done);
+    });
+
+
+    //TODO fix
+    it('should be able to update items using specified criteria', function(done) {
+        var criteria = {
+            id: {
+                $in: [_.map(items, '_id')]
+            }
+        };
+
+        var update = {
+            name: faker.name.findName()
+        };
+
+        localforage.update(criteria, update).then(function(updatedItems) {
+            expect(updatedItems).to.exist;
+            console.log(updatedItems.length);
+            done(null, updatedItems);
+        }).catch(done);
     });
 
     after(function(done) {

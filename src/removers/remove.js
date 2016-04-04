@@ -7,6 +7,8 @@
  * @return {Query}             query instance
  */
 Query.prototype.remove = function(criteria, done) {
+	//TODO make use of sub queries
+
 	// jshint validthis:true
 	var self = this;
 

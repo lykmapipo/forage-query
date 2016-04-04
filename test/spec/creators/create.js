@@ -7,7 +7,7 @@ describe('Query#create', function() {
     var items = [];
 
     function collect(item) {
-        item = _.isArray(item) ? item : [item]
+        item = _.isArray(item) ? item : [item];
         items = items.concat(item);
     }
 
