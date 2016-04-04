@@ -2,7 +2,7 @@ forageQuery
 ===========
 [![Build Status](https://travis-ci.org/lykmapipo/forageQuery.svg?branch=master)](https://travis-ci.org/lykmapipo/forageQuery)
 
-Query builder for [localForage](https://github.com/mozilla/localForage)
+Query builder for [localForage](https://github.com/mozilla/localForage) using [JavaScript implementation of MongoDB query language](https://github.com/kofrasa/mingo)
 
 ## Guide
 
