@@ -149,11 +149,11 @@ Query.prototype._cursor = function(items) {
         items = items.first();
         return items;
     }
-
-    //fetch item(s)
-    items = items.all();
-
-    return items;
+    //fetch all item(s)
+    else {
+        items = items.all();
+        return items;
+    }
 
 };
 

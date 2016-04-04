@@ -162,7 +162,7 @@ Query.extend = function(localForage, promise) {
     Query.prototype.localForage = localForage;
 
     //bind creators
-    _.forEach(['create', 'insert'], function(creator) {
+    _.forEach(['create'], function(creator) {
         //extend localforage with creators
         localForage[creator] = function(data, done) {
             //instantiate new query

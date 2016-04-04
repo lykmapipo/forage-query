@@ -23,8 +23,7 @@ Query.prototype.remove = function(criteria, done) {
 
 	if (criteria && !self._removes) {
 		//find items to remove
-		var query = new self.Query();
-		self._removes = query.find.call(query, criteria);
+		self._removes = self.find(criteria);
 	}
 
 	//remove items
@@ -61,6 +60,9 @@ Query.prototype._remove = function() {
 		return self.localForage.removeItem(item.id || item._id);
 	});
 
+	//compact removes
+	removes = _.compact(removes);
+
 	//perform batch remove
 	removes = self.Promise.all(removes);
 
@@ -68,4 +70,5 @@ Query.prototype._remove = function() {
 		//return removed items
 		return self._removes;
 	});
+
 };

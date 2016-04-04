@@ -9,7 +9,7 @@
  * @return {Query}            query instance
  * @public
  */
-Query.prototype.findOneAndRemove = function(criteria, data, done) {
+Query.prototype.findOneAndUpdate = function(criteria, data, done) {
 	//jshint validthis:true
 	var self = this;
 

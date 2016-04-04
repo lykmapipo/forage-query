@@ -13,7 +13,6 @@ describe('Query#create', function() {
 
     it('should be a function', function(done) {
         expect(localforage.create).to.be.a('function');
-        expect(localforage.insert).to.be.a('function');
         done();
     });
 

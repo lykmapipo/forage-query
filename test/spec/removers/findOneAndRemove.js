@@ -11,13 +11,14 @@ describe('Query#findOneAndRemove', function() {
         });
     });
 
-    it.only('should be able to remove an item using callback style', function(done) {
+    it('should be able to remove an item using callback style', function(done) {
         localforage.findOneAndRemove({
             name: items[0].name
         }, function(error, removedItem) {
             expect(error).to.not.exist;
             expect(removedItem).to.exist;
             expect(removedItem.name).to.be.equal(items[0].name);
+            expect(removedItem.id).to.be.equal(items[0].id);
             done(error, removedItem);
         });
     });
@@ -29,6 +30,7 @@ describe('Query#findOneAndRemove', function() {
             expect(error).to.not.exist;
             expect(removedItem).to.exist;
             expect(removedItem.name).to.be.equal(items[1].name);
+            expect(removedItem.id).to.be.equal(items[1].id);
             done(error, removedItem);
         });
     });
@@ -39,10 +41,9 @@ describe('Query#findOneAndRemove', function() {
         }).then(function(removedItem) {
             expect(removedItem).to.exist;
             expect(removedItem.name).to.be.equal(items[2].name);
+            expect(removedItem.id).to.be.equal(items[2].id);
             done(null, removedItem);
-        }).catch(function(error) {
-            done(error);
-        });
+        }).catch(done);
     });
 
     after(function(done) {

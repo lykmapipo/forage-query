@@ -22,7 +22,7 @@ Query.prototype.limit = function(value) {
     }
 
     //set a limit condition
-    self._limit = value;
+    self._limit = value || 1;
 
     //return self
     return self;
