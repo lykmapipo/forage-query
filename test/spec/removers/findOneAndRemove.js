@@ -11,7 +11,7 @@ describe('Query#findOneAndRemove', function() {
         });
     });
 
-    it('should be able to remove an item using callback style', function(done) {
+    it.only('should be able to remove an item using callback style', function(done) {
         localforage.findOneAndRemove({
             name: items[0].name
         }, function(error, removedItem) {

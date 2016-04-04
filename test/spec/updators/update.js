@@ -1,7 +1,7 @@
 'use strict';
 
 
-describe.only('Query#update', function() {
+describe('Query#update', function() {
 
     var items;
 
@@ -25,7 +25,8 @@ describe.only('Query#update', function() {
             expect(error).to.not.exist;
             expect(updatedItems).to.exist;
             expect(updatedItems[0].name).to.equal(update.name);
-            expect(updatedItems[0].name).to.not.equal(criteria.name);
+            expect(updatedItems[0].id).to.equal(items[0].id);
+            expect(updatedItems[0].name).to.not.equal(items[0].name);
             done(error, updatedItems);
         });
     });
@@ -43,7 +44,8 @@ describe.only('Query#update', function() {
             expect(error).to.not.exist;
             expect(updatedItems).to.exist;
             expect(updatedItems[0].name).to.equal(update.name);
-            expect(updatedItems[0].name).to.not.equal(criteria.name);
+            expect(updatedItems[0].id).to.equal(items[1].id);
+            expect(updatedItems[0].name).to.not.equal(items[1].name);
             done(error, updatedItems);
         });
     });
@@ -60,7 +62,8 @@ describe.only('Query#update', function() {
         localforage.update(criteria, update).then(function(updatedItems) {
             expect(updatedItems).to.exist;
             expect(updatedItems[0].name).to.equal(update.name);
-            expect(updatedItems[0].name).to.not.equal(criteria.name);
+            expect(updatedItems[0].id).to.equal(items[2].id);
+            expect(updatedItems[0].name).to.not.equal(items[2].name);
             done(null, updatedItems);
         }).catch(done);
     });
@@ -69,8 +72,8 @@ describe.only('Query#update', function() {
     //TODO fix
     it('should be able to update items using specified criteria', function(done) {
         var criteria = {
-            id: {
-                $in: [_.map(items, '_id')]
+            _id: {
+                $in: _.map(items, '_id')
             }
         };
 
@@ -80,7 +83,10 @@ describe.only('Query#update', function() {
 
         localforage.update(criteria, update).then(function(updatedItems) {
             expect(updatedItems).to.exist;
-            console.log(updatedItems.length);
+            expect(updatedItems).to.have.length(5);
+            _.forEach(updatedItems, function(item) {
+                expect(item.name).to.equal(update.name);
+            });
             done(null, updatedItems);
         }).catch(done);
     });

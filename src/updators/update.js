@@ -38,7 +38,7 @@ Query.prototype.update = function(criteria, data, done) {
 	//find item(s) based on criteria
 	if (!self._updates) {
 		var query = new self.Query();
-		self._updates = query.find.call(query, criteria);
+		self._updates = self.find.call(query, criteria);
 	}
 
 	//update items

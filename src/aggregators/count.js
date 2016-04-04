@@ -10,7 +10,11 @@ Query.prototype.count = function(criteria, done) {
 	var self = this;
 
 	//tell what operation to perform
-	self._operation = 'find';
+	self._operation = 'count';
+
+	//tell aggregation to perform
+	self._aggregation = 'count';
+
 
 	//normalize arguments
 	if (criteria && _.isFunction(criteria)) {
@@ -33,10 +37,8 @@ Query.prototype.count = function(criteria, done) {
 
 		//query based on criteria
 		else {
-			//tell aggregation to perform
-			self._aggregation = 'count';
 			//execute find query
-			self.find(done);
+			return self.find(done);
 		}
 
 	}

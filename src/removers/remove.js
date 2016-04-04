@@ -21,9 +21,10 @@ Query.prototype.remove = function(criteria, done) {
 		criteria = {};
 	}
 
-	if (criteria) {
+	if (criteria && !self._removes) {
 		//find items to remove
-		self._removes = self.find(criteria);
+		var query = new self.Query();
+		self._removes = query.find.call(query, criteria);
 	}
 
 	//remove items

@@ -102,12 +102,8 @@ Query.prototype._passFilter = function(key, value) {
         _id: key
     });
 
-
-    //clone conditions
-    var conditions = _.clone(self._conditions);
-
     //make use of Mingo.Query to compile current conditions
-    self._mingo = self._mingo || new Mingo.Query(conditions);
+    self._mingo = self._mingo || new Mingo.Query(self._conditions);
 
     //check if value(doc) match/pass specified conditions
     var pass = self._mingo.test(value);
@@ -145,17 +141,17 @@ Query.prototype._cursor = function(items) {
     if (self._aggregation) {
         //TODO handle other aggregations
         items = items.count();
+        return items;
     }
 
     //fetch single item
     if (self._limit && self._limit === 1) {
         items = items.first();
+        return items;
     }
 
     //fetch item(s)
-    else {
-        items = items.all();
-    }
+    items = items.all();
 
     return items;
 
