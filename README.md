@@ -68,6 +68,7 @@ $ grunt
 Fork this repo and push in your ideas. Do not forget to add a bit of test(s) of what value you adding.
 
 ## References
+- [localforage](https://github.com/mozilla/localForage)
 - [filtr](https://github.com/logicalparadox/filtr/)
 - [mongomock](https://github.com/AndrewGrachov/mongomock)
 - [mongo-query](https://github.com/AndrewGrachov/mongo-query)
