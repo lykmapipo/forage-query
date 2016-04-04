@@ -1,10 +1,10 @@
 {
-  "name": "forageQuery",
+  "name": "forage-query",
   "version": "0.1.0",
   "description": "Query builder for localForage",
-  "homepage": "https://github.com/lykmapipo/forageQuery",
+  "homepage": "https://github.com/lykmapipo/forage-query",
   "main": [
-    "dist/forageQuery.js"
+    "dist/forage-query.js"
   ],
   "authors": [
     "lykmapipo <lallyelias87@gmail.com>"

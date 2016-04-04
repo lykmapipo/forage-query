@@ -1,8 +1,8 @@
 {
-  "name": "forageQuery",
+  "name": "forage-query",
   "version": "0.1.0",
   "description": "Query builder for localForage",
-  "homepage": "https://github.com/lykmapipo/forageQuery",
+  "homepage": "https://github.com/lykmapipo/forag-qQuery",
   "author": "Lally Elias",
   "contributors": [
     {
@@ -54,10 +54,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lykmapipo/forageQuery.git"
+    "url": "https://github.com/lykmapipo/forage-query.git"
   },
   "bugs": {
-    "url": "https://github.com/lykmapipo/forageQuery/issues"
+    "url": "https://github.com/lykmapipo/forage-query/issues"
   },
   "license": "MIT",
   "engines": {
