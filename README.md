@@ -25,6 +25,8 @@ $ npm install --save forage-query
 
 ## Usage
 - Include `forage-query` into your app index.html 
+
+```js
 <!doctype html>
 <html class="no-js">
 
