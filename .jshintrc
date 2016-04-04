@@ -23,6 +23,8 @@
         "Query": false,
         "uuid": false,
         "_": false,
-        "Mingo": false
+        "Mingo": false,
+        "root":false,
+        "module":false
     }
 }

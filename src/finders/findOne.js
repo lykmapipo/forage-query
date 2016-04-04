@@ -1,41 +1,47 @@
-'use strict';
+(function(root, undefined) {
 
-/**
- * @function
- * @description find one item based on the criteria specified
- * @param  {Object}   criteria condition for filter items
- * @param  {Function} done     a callback to invoke after find one item
- * @return {Query}    this
- * @public
- */
-Query.prototype.findOne = function(criteria, done) {
-    /*jshint validthis:true*/
-    var self = this;
+    'use strict';
 
-    //tell what operation to perform
-    self._operation = 'find';
+    var Query = root.Query;
 
-    //check if criteria provided
-    if (_.isFunction(criteria)) {
-        done = criteria;
-        criteria = undefined;
-    }
+    /**
+     * @function
+     * @description find one item based on the criteria specified
+     * @param  {Object}   criteria condition for filter items
+     * @param  {Function} done     a callback to invoke after find one item
+     * @return {Query}    this
+     * @public
+     */
+    Query.prototype.findOne = function(criteria, done) {
+        /*jshint validthis:true*/
+        var self = this;
 
-    //build where clause based on criteria
-    if (criteria) {
-        self.where(criteria);
-    }
+        //tell what operation to perform
+        self._operation = 'find';
 
-    //implicit specify limit condition
-    self.limit(1);
+        //check if criteria provided
+        if (_.isFunction(criteria)) {
+            done = criteria;
+            criteria = undefined;
+        }
 
-    //execute find query
-    if (done && _.isFunction(done)) {
-        self.find(done);
-    }
+        //build where clause based on criteria
+        if (criteria) {
+            self.where(criteria);
+        }
+
+        //implicit specify limit condition
+        self.limit(1);
+
+        //execute find query
+        if (done && _.isFunction(done)) {
+            self.find(done);
+        }
 
 
-    //return self
-    return self;
+        //return self
+        return self;
 
-};
+    };
+
+}(this));

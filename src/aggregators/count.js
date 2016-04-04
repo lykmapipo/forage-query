@@ -1,48 +1,54 @@
-'use strict';
+(function(root, undefined) {
 
-/**
- * @description count existing values based on criteria 
- * @param  {Function} [done] a callback to invoke on suceess or error
- * @return {Query}           query instance
- */
-Query.prototype.count = function(criteria, done) {
-	// jshint validthis:true
-	var self = this;
+	'use strict';
 
-	//tell what operation to perform
-	self._operation = 'count';
+	var Query = root.Query;
 
-	//tell aggregation to perform
-	self._aggregation = 'count';
+	/**
+	 * @description count existing values based on criteria 
+	 * @param  {Function} [done] a callback to invoke on suceess or error
+	 * @return {Query}           query instance
+	 */
+	Query.prototype.count = function(criteria, done) {
+		// jshint validthis:true
+		var self = this;
+
+		//tell what operation to perform
+		self._operation = 'count';
+
+		//tell aggregation to perform
+		self._aggregation = 'count';
 
 
-	//normalize arguments
-	if (criteria && _.isFunction(criteria)) {
-		done = criteria;
-		criteria = undefined;
-	}
-
-	//build where clause based on criteria
-	if (criteria) {
-		self.where(criteria);
-	}
-
-	if (done && _.isFunction(done)) {
-		//if no criteria return keys length
-		if (!self._hasConditions()) {
-			self.localForage.length(function(error, count) {
-				return done(error, count);
-			});
+		//normalize arguments
+		if (criteria && _.isFunction(criteria)) {
+			done = criteria;
+			criteria = undefined;
 		}
 
-		//query based on criteria
-		else {
-			//execute find query
-			return self.find(done);
+		//build where clause based on criteria
+		if (criteria) {
+			self.where(criteria);
 		}
 
-	}
+		if (done && _.isFunction(done)) {
+			//if no criteria return keys length
+			if (!self._hasConditions()) {
+				self.localForage.length(function(error, count) {
+					return done(error, count);
+				});
+			}
 
-	return this;
+			//query based on criteria
+			else {
+				//execute find query
+				return self.find(done);
+			}
 
-};
+		}
+
+		return this;
+
+	};
+
+}(this));

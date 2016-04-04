@@ -1,27 +1,33 @@
-'use strict';
+(function(root, undefined) {
 
-/**
- * @function
- * @description remove existing item using specified criteria
- * @param  {Function} [done]  a callback to invoke on success or error
- * @return {Query}            query instance
- * @public
- */
-Query.prototype.findOneAndRemove = function(criteria, done) {
-	//jshint validthis:true
-	var self = this;
+	'use strict';
 
-	//normalize arguments
-	if (criteria && _.isFunction(criteria)) {
-		done = criteria;
-		criteria = {};
-	}
+	var Query = root.Query;
 
-	//prepare criteria
-	if (criteria) {
-		//ensure limit
-		self.limit(1);
-	}
+	/**
+	 * @function
+	 * @description remove existing item using specified criteria
+	 * @param  {Function} [done]  a callback to invoke on success or error
+	 * @return {Query}            query instance
+	 * @public
+	 */
+	Query.prototype.findOneAndRemove = function(criteria, done) {
+		//jshint validthis:true
+		var self = this;
 
-	return self.remove(criteria, done);
-};
+		//normalize arguments
+		if (criteria && _.isFunction(criteria)) {
+			done = criteria;
+			criteria = {};
+		}
+
+		//prepare criteria
+		if (criteria) {
+			//ensure limit
+			self.limit(1);
+		}
+
+		return self.remove(criteria, done);
+	};
+
+}(this));

@@ -28,6 +28,8 @@
         "uuid": false,
         "_": false,
         "localforage": false,
-        "Mingo": false
+        "Mingo": false,
+        "root":false,
+        "module":false
     }
 }

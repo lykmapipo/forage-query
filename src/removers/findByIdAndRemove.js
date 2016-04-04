@@ -1,38 +1,44 @@
-'use strict';
+(function(root, undefined) {
 
-/**
- * @function
- * @description remove existing item using its id
- * @param  {Function} [done]  a callback to invoke on success or error
- * @return {Query}            query instance
- * @public
- */
-Query.prototype.findByIdAndRemove = function(id, done) {
-	//jshint validthis:true
-	var self = this;
+	'use strict';
 
-	//normalize arguments
-	if (id && _.isFunction(id)) {
-		done = id;
-		id = undefined;
-	}
+	var Query = root.Query;
 
-	//prepare criteria
-	var criteria;
-	if (id) {
-		//FIX Invalid expression for $or criteria in mingo
-		criteria = {
-			id: id
-		};
+	/**
+	 * @function
+	 * @description remove existing item using its id
+	 * @param  {Function} [done]  a callback to invoke on success or error
+	 * @return {Query}            query instance
+	 * @public
+	 */
+	Query.prototype.findByIdAndRemove = function(id, done) {
+		//jshint validthis:true
+		var self = this;
 
-		//ensure limit
-		self.limit(1);
-	}
+		//normalize arguments
+		if (id && _.isFunction(id)) {
+			done = id;
+			id = undefined;
+		}
 
-	//throw no id
-	else {
-		throw new Error('Missing id');
-	}
+		//prepare criteria
+		var criteria;
+		if (id) {
+			//FIX Invalid expression for $or criteria in mingo
+			criteria = {
+				id: id
+			};
 
-	return self.remove(criteria, done);
-};
+			//ensure limit
+			self.limit(1);
+		}
+
+		//throw no id
+		else {
+			throw new Error('Missing id');
+		}
+
+		return self.remove(criteria, done);
+	};
+
+}(this));

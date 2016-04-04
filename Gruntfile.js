@@ -89,14 +89,14 @@ module.exports = function(grunt) {
                 }
             },
 
-            //concat task configuration
+            //concat task
             concat: {
-                options: {
-                    banner: '<%= meta.banner %>\n',
-                    stripBanners: true,
-                    separator: '\n\n'
-                },
                 dist: {
+                    options: {
+                        banner: '<%= meta.banner %>\n',
+                        stripBanners: true,
+                        separator: '\n\n'
+                    },
                     files: {
                         'dist/<%= pkg.name %>.js': [
                             'bower_components/mingo/mingo.js',
@@ -137,6 +137,53 @@ module.exports = function(grunt) {
                     configFile: '<%= props.test %>/karma.conf.js',
                     singleRun: true
                 }
+            },
+
+            //replace configurations
+            replace: {
+                dist: {
+                    options: {
+                        usePrefix: false,
+                        patterns: [{
+                            match: 'require("underscore")',
+                            replacement: function() {
+                                return 'require("lodash")';
+                            }
+                        }]
+                    },
+                    files: [{
+                        src: [
+                            '<%= props.dist%>/<%= pkg.name %>.js'
+                        ],
+                        dest: '<%= props.dist%>/<%= pkg.name %>.js'
+                    }]
+                }
+            },
+
+            //umd configuration
+            umd: {
+                dist: {
+                    options: {
+                        src: '<%= props.dist%>/<%= pkg.name %>.js',
+                        dest: '<%= props.dist%>/<%= pkg.name %>.js',
+                        // objectToExport: 'forageQuery', // optional, internal object that will be exported
+                        // amdModuleId: 'forageQuery', // optional, if missing the AMD module will be anonymous
+                        // globalAlias: 'forageQuery', // optional, changes the name of the global variable
+                        deps: {
+                            'default': ['localforage', '_', 'uuid'],
+                            amd: [
+                                'localforage',
+                                'lodash',
+                                'node-uuid',
+                            ],
+                            cjs: [
+                                'localforage',
+                                'lodash',
+                                'node-uuid'
+                            ]
+                        }
+                    }
+                }
             }
         });
 
@@ -147,7 +194,9 @@ module.exports = function(grunt) {
         'clean:dist',
         'jshint',
         'karma',
-        'concat'
+        'concat',
+        'replace:dist',
+        'umd:dist'
     ]);
 
     grunt.registerTask('test', [

@@ -1,38 +1,43 @@
-'use strict';
+(function(root, undefined) {
 
-/**
- * @description find an item by id 
- * @param  {Function} done [description]
- * @return {[type]}            [description]
- */
-Query.prototype.findById = function(id, done) {
-    /*jshint validthis:true*/
-    var self = this;
+    'use strict';
 
-    //set current operationeration
-    self._operation = 'find';
+    var Query = root.Query;
+    /**
+     * @description find an item by id 
+     * @param  {Function} done [description]
+     * @return {[type]}            [description]
+     */
+    Query.prototype.findById = function(id, done) {
+        /*jshint validthis:true*/
+        var self = this;
 
-    if (_.isFunction(id)) {
-        done = id;
-        id = undefined;
-    }
+        //set current operationeration
+        self._operation = 'find';
 
-    //build find query conditions
-    if (id) {
-        self._conditions.id = {
-            '$eq': id
-        };
-    }
+        if (_.isFunction(id)) {
+            done = id;
+            id = undefined;
+        }
 
-    //set skip and limit conditions
-    self.skip(0);
-    self.limit(1);
+        //build find query conditions
+        if (id) {
+            self._conditions.id = {
+                '$eq': id
+            };
+        }
 
-    //exceute find query
-    if (done && _.isFunction(done)) {
-        self.find(done);
-    }
+        //set skip and limit conditions
+        self.skip(0);
+        self.limit(1);
 
-    //return self
-    return self;
-};
+        //exceute find query
+        if (done && _.isFunction(done)) {
+            self.find(done);
+        }
+
+        //return self
+        return self;
+    };
+
+}(this));
