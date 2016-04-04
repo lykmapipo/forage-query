@@ -1,4 +1,4 @@
-forageQuery
+forage-query
 ===========
 [![Build Status](https://travis-ci.org/lykmapipo/forageQuery.svg?branch=master)](https://travis-ci.org/lykmapipo/forageQuery)
 
@@ -13,34 +13,83 @@ Query builder for [localForage](https://github.com/mozilla/localForage) using [J
 * [Contribute](#contribute)
 
 ## Install
-```sh
-$ bower install --save forageQuery
-```
-## Usage
-- Include `forageQuery` into your app index.html 
-```html
-<!doctype html>
-<html>
-<head>
-    ...
-</head>
-<body>
-    
-    ...
 
+### Browser
+```sh
+$ bower install --save forage-query
+```
+### Node
+```sh
+$ npm install --save forage-query
+```
+
+## Usage
+- Include `forage-query` into your app index.html 
+<!doctype html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+</head>
+
+<body>
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/forageQuery/dist/forageQuery.js"></script>
+    <script src='bower_components/localforage/dist/localforage.js'></script>
+    <script src='bower_components/node-uuid/uuid.js'></script>
+    <script src='bower_components/lodash/lodash.js'></script>
+    <script src='bower_components/Faker/build/build/faker.js'></script>
+    <!-- end development dependencies -->
+    <script src="dist/forageQuery.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
-    <!-- build:js({.tmp,app}) scripts/yourApp.js -->
-    <script src="scripts/app.js"></script>
-    <!-- endbuild -->
-
-    ...
-
+    <script type="text/javascript">
+    // extend localforage with query capabilities
+    Query.extend(localforage);
+    var people = [
+        faker.helpers.contextualCard(),
+        faker.helpers.contextualCard(),
+        faker.helpers.contextualCard()
+    ]
+    localforage
+        .clear() //clean up
+        .then(function afterClear() {
+            return localforage.create(people);
+        })
+        //create
+        .then(function afterCreate(createdPeople) {
+            console.log('created', createdPeople);
+            people = createdPeople;
+            return createdPeople;
+        })
+        //find
+        .then(function find() {
+            return localforage.find({
+                _id: {
+                    $in: _.map(people, '_id')
+                }
+            });
+        })
+        .then(function afterFind(foundPeople) {
+            console.log('found', foundPeople);
+            return foundPeople;
+        })
+        //remove
+        .then(function remove() {
+            return localforage.findByIdAndRemove(people[0]._id);
+        })
+        .then(function afterRemove(removedPerson) {
+            console.log('removed', removedPerson);
+        })
+        .catch(function onError(error) {
+            console.log(error);
+        });
+    </script>
 </body>
+
 </html>
 ```
 

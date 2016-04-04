@@ -1,15 +1,14 @@
 {
   "name": "forage-query",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Query builder for localForage",
-  "homepage": "https://github.com/lykmapipo/forag-qQuery",
+  "homepage": "https://github.com/lykmapipo/forage-query",
   "author": "Lally Elias",
-  "contributors": [
-    {
-      "name": "lykmapipo",
-      "github": "https://github.com/lykmapipo"
-    }
-  ],
+  "main": "dist/forage-query.js",
+  "contributors": [{
+    "name": "lykmapipo",
+    "github": "https://github.com/lykmapipo"
+  }],
   "keywords": [
     "localForage",
     "finder",
