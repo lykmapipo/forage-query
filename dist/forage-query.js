@@ -16,7 +16,7 @@
 
 /**
  * Query builder for localForage
- * @version v0.1.0 - Mon Apr 04 2016 18:16:35
+ * @version v0.1.1 - Mon Apr 04 2016 22:31:34
  * @link https://github.com/lykmapipo/forage-query
  * @authors lykmapipo <lallyelias87@gmail.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -2675,352 +2675,6 @@
 
 (function(root, undefined) {
 
-	'use strict';
-
-	var Query = root.Query;
-
-	/**
-	 * @function
-	 * @description remove existing item using its id
-	 * @param  {Function} [done]  a callback to invoke on success or error
-	 * @return {Query}            query instance
-	 * @public
-	 */
-	Query.prototype.findByIdAndRemove = function(id, done) {
-		//jshint validthis:true
-		var self = this;
-
-		//normalize arguments
-		if (id && _.isFunction(id)) {
-			done = id;
-			id = undefined;
-		}
-
-		//prepare criteria
-		var criteria;
-		if (id) {
-			//FIX Invalid expression for $or criteria in mingo
-			criteria = {
-				id: id
-			};
-
-			//ensure limit
-			self.limit(1);
-		}
-
-		//throw no id
-		else {
-			throw new Error('Missing id');
-		}
-
-		return self.remove(criteria, done);
-	};
-
-}(this));
-
-(function(root, undefined) {
-
-	'use strict';
-
-	var Query = root.Query;
-
-	/**
-	 * @function
-	 * @description remove existing item using specified criteria
-	 * @param  {Function} [done]  a callback to invoke on success or error
-	 * @return {Query}            query instance
-	 * @public
-	 */
-	Query.prototype.findOneAndRemove = function(criteria, done) {
-		//jshint validthis:true
-		var self = this;
-
-		//normalize arguments
-		if (criteria && _.isFunction(criteria)) {
-			done = criteria;
-			criteria = {};
-		}
-
-		//prepare criteria
-		if (criteria) {
-			//ensure limit
-			self.limit(1);
-		}
-
-		return self.remove(criteria, done);
-	};
-
-}(this));
-
-(function(root, undefined) {
-
-	'use strict';
-
-	var Query = root.Query;
-
-	/**
-	 * @description remove existing item(s) using specified criteria
-	 * @param {Object} [criteria]  selector
-	 * @param  {Function} [done]   a callback to invoke on success or error
-	 * @return {Query}             query instance
-	 */
-	Query.prototype.remove = function(criteria, done) {
-		//TODO make use of sub queries
-
-		// jshint validthis:true
-		var self = this;
-
-		//tell what operation to perform
-		self._operation = 'remove';
-
-		//normalize arguments
-		if (criteria && _.isFunction(criteria)) {
-			done = criteria;
-			criteria = {};
-		}
-
-		if (criteria && !self._removes) {
-			//find items to remove
-			var query = new self.Query();
-			self._removes = query.find.call(query, criteria);
-			//TODO clone other criteria and merge to self._removes
-			if (self._limit) {
-				self._removes.limit(self._limit);
-			}
-		}
-
-		//remove items
-		if (done && _.isFunction(done)) {
-			self._removes.then(function(items) {
-				//update _removes reference
-				self._removes = items;
-
-				//perfom remove
-				return self._remove();
-			}).then(function(items) {
-				done(null, items);
-			}).catch(function(error) {
-				done(error);
-			});
-		}
-
-		return self;
-	};
-
-
-	/**
-	 * @function
-	 * @name _remove
-	 * @description remove current items in query _removes queue(collection)
-	 * @private
-	 */
-	Query.prototype._remove = function() {
-		//jshint validthis:true
-		var self = this;
-
-		//prepare removes
-		var removes = _.map([].concat(self._removes), function(item) {
-			var id = _.get(item, 'id') || _.get(item, '_id');
-			return self.localForage.removeItem(id).then(function() {
-				return id;
-			});
-		});
-
-		//compact removes
-		removes = _.compact(removes);
-
-		//perform batch remove
-		removes = self.Promise.all(removes);
-
-		return removes.then(function( /*results*/ ) {
-			//return removed items
-			return self._removes;
-		});
-
-	};
-
-}(this));
-
-(function(root, undefined) {
-
-	'use strict';
-
-	var Query = root.Query;
-
-	/**
-	 * @function
-	 * @description update existing item using its id
-	 * @param {String} id selector
-	 * @param {Object} data updates
-	 * @param  {Function} [done]  a callback to invoke on success or error
-	 * @return {Query}            query instance
-	 * @public
-	 */
-	Query.prototype.findByIdAndUpdate = function(id, data, done) {
-		//jshint validthis:true
-		var self = this;
-
-		//normalize arguments
-		if (id && _.isFunction(id)) {
-			done = id;
-			id = undefined;
-		}
-
-		//prepare criteria
-		var criteria;
-		if (id) {
-			//FIX Invalid expression for $or criteria in mingo
-			criteria = {
-				id: id
-			};
-
-			//ensure limit
-			self.limit(1);
-		}
-
-		//throw no id
-		else {
-			throw new Error('Missing id');
-		}
-
-		return self.update(criteria, data, done);
-	};
-
-}(this));
-
-(function(root, undefined) {
-
-	'use strict';
-
-	var Query = root.Query;
-
-	/**
-	 * @function
-	 * @description update existing item using specified criteria
-	 *  @param {Object} criteria selector
-	 * @param {Object} data updates
-	 * @param  {Function} [done]  a callback to invoke on success or error
-	 * @return {Query}            query instance
-	 * @public
-	 */
-	Query.prototype.findOneAndUpdate = function(criteria, data, done) {
-		//jshint validthis:true
-		var self = this;
-
-		//normalize arguments
-		if (criteria && _.isFunction(criteria)) {
-			done = criteria;
-			criteria = {};
-		}
-
-		//ensure limit
-		if (criteria) {
-			//ensure limit
-			self.limit(1);
-		}
-
-		return self.update(criteria, data, done);
-	};
-
-}(this));
-
-(function(root, undefined) {
-
-	'use strict';
-
-	var Query = root.Query;
-	/**
-	 * @description update a given item(s) using specified criteria
-	 * @param {Object} criteria selector
-	 * @param {Object} data updates
-	 * @param  {Function} [done]  a callback to invoke on success or error
-	 * @return {Query}             query instance
-	 */
-	Query.prototype.update = function(criteria, data, done) {
-		/*jshint validthis:true*/
-		var self = this;
-
-		//tell what operation to perform
-		self._operation = 'update';
-
-		//normalize arguments
-		if (criteria && _.isFunction(criteria) && !self._updates) {
-			done = criteria;
-			criteria = {};
-			data = {};
-		}
-
-		if (data && _.isFunction(data) && !self._updates) {
-			done = data;
-			data = {};
-		}
-
-		if (self._updates) {
-			done = criteria;
-		}
-
-		//tell which data to update
-		if (!self._updates) {
-			self._data = data;
-		}
-
-		//find item(s) based on criteria
-		if (!self._updates) {
-			var query = new self.Query();
-			self._updates = self.find.call(query, criteria);
-		}
-
-		//update items
-		if (done && _.isFunction(done)) {
-			self._updates.then(function(items) {
-				//update _updates reference
-				self._updates = items;
-
-				//perfom update
-				return self._update();
-			}).then(function(items) {
-				done(null, items);
-			}).catch(function(error) {
-				done(error);
-			});
-		}
-
-		return self;
-	};
-
-
-	/**
-	 * @function
-	 * @name _update
-	 * @description update current items in query _updates queue(collection)
-	 * @private
-	 */
-	Query.prototype._update = function() {
-		/*jshint validthis:true*/
-		var self = this;
-
-		//prepare updates
-		var updates = _.map([].concat(self._updates), function(item) {
-			return _.merge({}, item, self._data);
-		});
-
-		//compact updates
-		updates = _.compact(updates);
-
-		//perform batch update
-		var query = new self.Query();
-		updates = query.create.call(query, updates);
-
-		return updates.then(function(results) {
-			//return updated items
-			return (self._limit && self._limit === 1) ? _.first(results) : results;
-		});
-	};
-
-}(this));
-
-(function(root, undefined) {
-
     'use strict';
 
     var Query = root.Query;
@@ -3510,6 +3164,377 @@
             }
         });
     };
+
+}(this));
+
+(function(root, undefined) {
+
+	'use strict';
+
+	var Query = root.Query;
+
+	/**
+	 * @function
+	 * @description remove existing item using its id
+	 * @param  {Function} [done]  a callback to invoke on success or error
+	 * @return {Query}            query instance
+	 * @public
+	 */
+	Query.prototype.findByIdAndRemove = function(id, done) {
+		//jshint validthis:true
+		var self = this;
+
+		//normalize arguments
+		if (id && _.isFunction(id)) {
+			done = id;
+			id = undefined;
+		}
+
+		//prepare criteria
+		var criteria;
+		if (id) {
+			//FIX Invalid expression for $or criteria in mingo
+			criteria = {
+				id: id
+			};
+
+			//ensure limit
+			self.limit(1);
+		}
+
+		//throw no id
+		else {
+			throw new Error('Missing id');
+		}
+
+		return self.remove(criteria, done);
+	};
+
+}(this));
+
+(function(root, undefined) {
+
+	'use strict';
+
+	var Query = root.Query;
+
+	/**
+	 * @function
+	 * @description remove existing item using specified criteria
+	 * @param  {Function} [done]  a callback to invoke on success or error
+	 * @return {Query}            query instance
+	 * @public
+	 */
+	Query.prototype.findOneAndRemove = function(criteria, done) {
+		//jshint validthis:true
+		var self = this;
+
+		//normalize arguments
+		if (criteria && _.isFunction(criteria)) {
+			done = criteria;
+			criteria = {};
+		}
+
+		//prepare criteria
+		if (criteria) {
+			//ensure limit
+			self.limit(1);
+		}
+
+		return self.remove(criteria, done);
+	};
+
+}(this));
+
+(function(root, undefined) {
+
+	'use strict';
+
+	var Query = root.Query;
+
+	/**
+	 * @description remove existing item(s) using specified criteria
+	 * @param {Object} [criteria]  selector
+	 * @param  {Function} [done]   a callback to invoke on success or error
+	 * @return {Query}             query instance
+	 */
+	Query.prototype.remove = function(criteria, done) {
+		//TODO make use of sub queries
+
+		// jshint validthis:true
+		var self = this;
+
+		//tell what operation to perform
+		self._operation = 'remove';
+
+		//normalize arguments
+		if (criteria && _.isFunction(criteria)) {
+			done = criteria;
+			criteria = {};
+		}
+
+		if (criteria && !self._removes) {
+			//find items to remove
+			var query = new self.Query();
+			self._removes = query.find.call(query, criteria);
+			//TODO clone other criteria and merge to self._removes
+			if (self._limit) {
+				self._removes.limit(self._limit);
+			}
+		}
+
+		//remove items
+		if (done && _.isFunction(done)) {
+			self._removes.then(function(items) {
+				//update _removes reference
+				self._removes = items;
+
+				//perfom remove
+				return self._remove();
+			}).then(function(items) {
+				done(null, items);
+			}).catch(function(error) {
+				done(error);
+			});
+		}
+
+		return self;
+	};
+
+
+	/**
+	 * @function
+	 * @name _remove
+	 * @description remove current items in query _removes queue(collection)
+	 * @private
+	 */
+	Query.prototype._remove = function() {
+		//jshint validthis:true
+		var self = this;
+
+		//prepare removes
+		var removes = _.map([].concat(self._removes), function(item) {
+			var id = _.get(item, 'id') || _.get(item, '_id');
+			return self.localForage.removeItem(id).then(function() {
+				return id;
+			});
+		});
+
+		//compact removes
+		removes = _.compact(removes);
+
+		//perform batch remove
+		removes = self.Promise.all(removes);
+
+		return removes.then(function( /*results*/ ) {
+			//return removed items
+			return self._removes;
+		});
+
+	};
+
+}(this));
+
+(function(root, undefined) {
+
+	'use strict';
+
+	var Query = root.Query;
+
+	/**
+	 * @description sort query result based on criteria 
+	 * @param {Object} criteria  sorting criteria
+	 * @return {Query}           query instance
+	 */
+	Query.prototype.sort = function(criteria) {
+		// jshint validthis:true
+		var self = this;
+
+		//build where clause based on criteria
+		if (criteria) {
+			self._sort = _.merge({}, self._sort, criteria);
+		}
+
+		return this;
+	};
+
+}(this));
+
+(function(root, undefined) {
+
+	'use strict';
+
+	var Query = root.Query;
+
+	/**
+	 * @function
+	 * @description update existing item using its id
+	 * @param {String} id selector
+	 * @param {Object} data updates
+	 * @param  {Function} [done]  a callback to invoke on success or error
+	 * @return {Query}            query instance
+	 * @public
+	 */
+	Query.prototype.findByIdAndUpdate = function(id, data, done) {
+		//jshint validthis:true
+		var self = this;
+
+		//normalize arguments
+		if (id && _.isFunction(id)) {
+			done = id;
+			id = undefined;
+		}
+
+		//prepare criteria
+		var criteria;
+		if (id) {
+			//FIX Invalid expression for $or criteria in mingo
+			criteria = {
+				id: id
+			};
+
+			//ensure limit
+			self.limit(1);
+		}
+
+		//throw no id
+		else {
+			throw new Error('Missing id');
+		}
+
+		return self.update(criteria, data, done);
+	};
+
+}(this));
+
+(function(root, undefined) {
+
+	'use strict';
+
+	var Query = root.Query;
+
+	/**
+	 * @function
+	 * @description update existing item using specified criteria
+	 *  @param {Object} criteria selector
+	 * @param {Object} data updates
+	 * @param  {Function} [done]  a callback to invoke on success or error
+	 * @return {Query}            query instance
+	 * @public
+	 */
+	Query.prototype.findOneAndUpdate = function(criteria, data, done) {
+		//jshint validthis:true
+		var self = this;
+
+		//normalize arguments
+		if (criteria && _.isFunction(criteria)) {
+			done = criteria;
+			criteria = {};
+		}
+
+		//ensure limit
+		if (criteria) {
+			//ensure limit
+			self.limit(1);
+		}
+
+		return self.update(criteria, data, done);
+	};
+
+}(this));
+
+(function(root, undefined) {
+
+	'use strict';
+
+	var Query = root.Query;
+	/**
+	 * @description update a given item(s) using specified criteria
+	 * @param {Object} criteria selector
+	 * @param {Object} data updates
+	 * @param  {Function} [done]  a callback to invoke on success or error
+	 * @return {Query}             query instance
+	 */
+	Query.prototype.update = function(criteria, data, done) {
+		/*jshint validthis:true*/
+		var self = this;
+
+		//tell what operation to perform
+		self._operation = 'update';
+
+		//normalize arguments
+		if (criteria && _.isFunction(criteria) && !self._updates) {
+			done = criteria;
+			criteria = {};
+			data = {};
+		}
+
+		if (data && _.isFunction(data) && !self._updates) {
+			done = data;
+			data = {};
+		}
+
+		if (self._updates) {
+			done = criteria;
+		}
+
+		//tell which data to update
+		if (!self._updates) {
+			self._data = data;
+		}
+
+		//find item(s) based on criteria
+		if (!self._updates) {
+			var query = new self.Query();
+			self._updates = self.find.call(query, criteria);
+		}
+
+		//update items
+		if (done && _.isFunction(done)) {
+			self._updates.then(function(items) {
+				//update _updates reference
+				self._updates = items;
+
+				//perfom update
+				return self._update();
+			}).then(function(items) {
+				done(null, items);
+			}).catch(function(error) {
+				done(error);
+			});
+		}
+
+		return self;
+	};
+
+
+	/**
+	 * @function
+	 * @name _update
+	 * @description update current items in query _updates queue(collection)
+	 * @private
+	 */
+	Query.prototype._update = function() {
+		/*jshint validthis:true*/
+		var self = this;
+
+		//prepare updates
+		var updates = _.map([].concat(self._updates), function(item) {
+			return _.merge({}, item, self._data);
+		});
+
+		//compact updates
+		updates = _.compact(updates);
+
+		//perform batch update
+		var query = new self.Query();
+		updates = query.create.call(query, updates);
+
+		return updates.then(function(results) {
+			//return updated items
+			return (self._limit && self._limit === 1) ? _.first(results) : results;
+		});
+	};
 
 }(this));
 

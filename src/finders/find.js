@@ -5,9 +5,13 @@
     var Query = root.Query;
 
     /**
+     * @function
      * @description find an item using specified criteria
      * @param  {Function} [done] callback to invoke on success or error
      * @return {Query}           query instance
+     * @public
+     * @example
+     * query.find({ name: 'Los Pollos Hermanos' }).exec(callback)
      */
     Query.prototype.find = function(criteria, done) {
         /*jshint validthis:true*/

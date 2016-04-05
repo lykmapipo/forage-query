@@ -7,10 +7,12 @@
 
     /**
      * @function
-     * @description specifies limit condition
+     * @description specifies the maximum number of documents the query will return
      * @param  {Integer} value a limit value
      * @return {Query}       
      * @public
+     * @example
+     * query.limit(20)
      */
     Query.prototype.limit = function(value) {
         /*jshint validthis:true*/

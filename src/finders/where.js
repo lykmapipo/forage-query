@@ -5,7 +5,8 @@
     var Query = root.Query;
 
     /**
-     * @description query where clause builder
+     * @function
+     * @description specifies a path for use with chaining
      * @param  {Object}   criteria valid query object
      * @param  {Function} [done]   callback to invoke on success or error
      * @return {Query}             query instance

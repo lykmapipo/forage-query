@@ -45,7 +45,7 @@ $ npm install --save forage-query
     <script src='bower_components/lodash/lodash.js'></script>
     <script src='bower_components/Faker/build/build/faker.js'></script>
     <!-- end development dependencies -->
-    <script src="dist/forageQuery.js"></script>
+    <script src="dist/forage-query.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <script type="text/javascript">

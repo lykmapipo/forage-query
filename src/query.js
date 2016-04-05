@@ -1,10 +1,13 @@
 (function(root, undefined) {
+
     'use strict';
 
     //ensure lodash has contains method
     if (_ && !_.contains) {
         _.contains = _.includes;
     }
+
+    //TODO implement distinct query
 
     /**
      * @description localForage query builder

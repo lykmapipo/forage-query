@@ -7,15 +7,19 @@
 
     /**
      * @function
-     * @description Specifies the complementary comparison value for paths 
-     *              specified with where()
+     * @description specifies a $gte query condition.
      * @param  {String} [path]  optional item path to perform comparison on.
      *                        if not specified previous path will be used
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @example
+     * Thing.find().where('age').gte(21)
+     *
+     * // or
+     * Thing.find().gte('age', 21)
      */
-    Query.prototype.eq = Query.prototype.equals = function(path, value) {
+    Query.prototype.gte = function(path, value) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -37,12 +41,11 @@
         //build where clause and update current query conditions
         var criteria = {};
         criteria[self._path] = {
-            '$eq': value
+            '$gte': value
         };
-        self.where(criteria);
 
         //return self
-        return self;
+        return self.where(criteria);
     };
 
 }(this));

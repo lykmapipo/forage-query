@@ -7,15 +7,18 @@
 
     /**
      * @function
-     * @description Specifies the complementary comparison value for paths 
-     *              specified with where()
+     * @description specifies an $elemMatch condition
      * @param  {String} [path]  optional item path to perform comparison on.
      *                        if not specified previous path will be used
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @example
+     * query.elemMatch('comment', { author: 'autobot', votes: {$gte: 5}})
+     *
+     * query.where('comment').elemMatch({ author: 'autobot', votes: {$gte: 5}})
      */
-    Query.prototype.eq = Query.prototype.equals = function(path, value) {
+    Query.prototype.elemMatch = function(path, value) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -37,12 +40,11 @@
         //build where clause and update current query conditions
         var criteria = {};
         criteria[self._path] = {
-            '$eq': value
+            '$elemMatch': value
         };
-        self.where(criteria);
 
         //return self
-        return self;
+        return self.where(criteria);
     };
 
 }(this));

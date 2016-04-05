@@ -4,12 +4,19 @@
 
 	var Query = root.Query;
 
+	//TODO implement options
+
 	/**
 	 * @function
 	 * @description remove existing item using specified criteria
 	 * @param  {Function} [done]  a callback to invoke on success or error
 	 * @return {Query}            query instance
 	 * @public
+	 * @example
+	 * A.where().findOneAndRemove(conditions, callback) // executes
+	 * A.where().findOneAndRemove(conditions) // returns Query
+	 * A.where().findOneAndRemove(callback)   // executes
+	 * A.where().findOneAndRemove()           // returns Query
 	 */
 	Query.prototype.findOneAndRemove = function(criteria, done) {
 		//jshint validthis:true

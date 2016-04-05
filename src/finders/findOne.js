@@ -11,6 +11,14 @@
      * @param  {Function} done     a callback to invoke after find one item
      * @return {Query}    this
      * @public
+     * @example
+     * var query  = Kitten.where({ color: 'white' });
+     * query.findOne(function (err, kitten) {
+     *   if (err) return handleError(err);
+     *   if (kitten) {
+     *    // doc may be null if no document matched
+     *   }
+     * });
      */
     Query.prototype.findOne = function(criteria, done) {
         /*jshint validthis:true*/

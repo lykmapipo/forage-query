@@ -7,15 +7,20 @@
 
     /**
      * @function
-     * @description Specifies the complementary comparison value for paths 
-     *              specified with where()
+     * @description specifies a $mod query condition.
      * @param  {String} [path]  optional item path to perform comparison on.
      *                        if not specified previous path will be used
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/mod/|$mod}
+     * @example
+     * Thing.find().where('qty').mod([ 4, 0 ])
+     *
+     * // or
+     * Thing.find().mod('qty', [ 4, 0 ])
      */
-    Query.prototype.eq = Query.prototype.equals = function(path, value) {
+    Query.prototype.mod = function(path, value) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -37,12 +42,11 @@
         //build where clause and update current query conditions
         var criteria = {};
         criteria[self._path] = {
-            '$eq': value
+            '$mod': value
         };
-        self.where(criteria);
 
         //return self
-        return self;
+        return self.where(criteria);
     };
 
 }(this));

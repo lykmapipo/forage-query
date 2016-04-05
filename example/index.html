@@ -16,7 +16,7 @@
     <script src='../bower_components/lodash/lodash.js'></script>
     <script src='../bower_components/Faker/build/build/faker.js'></script>
     <!-- end development dependencies -->
-    <script src="../dist/forageQuery.js"></script>
+    <script src="../dist/forage-query.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <script type="text/javascript">
@@ -28,7 +28,7 @@
         faker.helpers.contextualCard()
     ]
     localforage
-        .clear() //clean up
+        .remove() //clean up
         .then(function afterClear() {
             return localforage.create(people);
         })
@@ -44,6 +44,8 @@
                 _id: {
                     $in: _.map(people, '_id')
                 }
+            }).sort({
+                name: 1
             });
         })
         .then(function afterFind(foundPeople) {

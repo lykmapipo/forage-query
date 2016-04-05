@@ -8,6 +8,12 @@
 	 * @description count existing values based on criteria 
 	 * @param  {Function} [done] a callback to invoke on suceess or error
 	 * @return {Query}           query instance
+	 * @example
+	 * var countQuery = model.where({ 'color': 'black' }).count();
+	 *
+	 * query.count({ color: 'black' }).exec(callback)
+	 *
+	 * query.count({ color: 'black' }, callback)
 	 */
 	Query.prototype.count = function(criteria, done) {
 		// jshint validthis:true

@@ -103,9 +103,10 @@ module.exports = function(grunt) {
                             '<%= props.src %>/query.js',
                             '<%= props.src %>/aggregators/**/*.js',
                             '<%= props.src %>/creators/**/*.js',
+                            '<%= props.src %>/finders/**/*.js',
                             '<%= props.src %>/removers/**/*.js',
-                            '<%= props.src %>/updators/**/*.js',
-                            '<%= props.src %>/finders/**/*.js'
+                            '<%= props.src %>/sorters/**/*.js',
+                            '<%= props.src %>/updators/**/*.js'
                         ]
                     }
                 }

@@ -7,15 +7,19 @@
 
     /**
      * @function
-     * @description Specifies the complementary comparison value for paths 
-     *              specified with where()
+     * @description specifies a $in query condition.
      * @param  {String} [path]  optional item path to perform comparison on.
      *                        if not specified previous path will be used
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @example
+     * Thing.find().where('age').in([ 5, 15 ])
+     *
+     * // or
+     * Thing.find().in('age', [ 5, 15 ])
      */
-    Query.prototype.eq = Query.prototype.equals = function(path, value) {
+    Query.prototype.in = function(path, value) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -37,12 +41,11 @@
         //build where clause and update current query conditions
         var criteria = {};
         criteria[self._path] = {
-            '$eq': value
+            '$in': value
         };
-        self.where(criteria);
 
         //return self
-        return self;
+        return self.where(criteria);
     };
 
 }(this));
