@@ -7,15 +7,15 @@
 
     /**
      * @function
-     * @description specifies arguments for a $nor condition
+     * @description specifies arguments for a $or condition
      * @param  {Object[]} conditions array of conditions
      * @return {Query}       this
      * @public
-     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/nor/|$nor}
+     * @see {@link $or}
      * @example
-     * query.nor([{ color: 'green' }, { status: 'ok' }])
+     * query.or([{ color: 'green' }, { status: 'ok' }])
      */
-    Query.prototype.nor = function(conditions) {
+    Query.prototype.or = function(conditions) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -24,7 +24,7 @@
 
         //build where clause and update current query conditions
         var criteria = {
-            $nor: conditions
+            $or: conditions
         };
 
         //return self

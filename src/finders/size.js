@@ -7,15 +7,16 @@
 
     /**
      * @function
-     * @description Specifies the complementary comparison value for paths 
-     *              specified with where()
+     * @description specifies a $size query condition
      * @param  {String} [path]  optional item path to perform comparison on.
      *                        if not specified previous path will be used
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @example
+     * Thing.where('tags').size(0).exec(function (err, docs) {});
      */
-    Query.prototype.eq = Query.prototype.equals = function(path, value) {
+    Query.prototype.size = function(path, value) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -37,7 +38,7 @@
         //build where clause and update current query conditions
         var criteria = {};
         criteria[self._path] = {
-            '$eq': value
+            '$size': value
         };
 
         //return self

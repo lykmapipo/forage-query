@@ -7,15 +7,20 @@
 
     /**
      * @function
-     * @description Specifies the complementary comparison value for paths 
-     *              specified with where()
+     * @description specifies a $slice projection for an array
      * @param  {String} [path]  optional item path to perform comparison on.
      *                        if not specified previous path will be used
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @example
+     * query.slice('comments', 5)
+     * query.slice('comments', -5)
+     * query.slice('comments', [10, 5])
+     * query.where('comments').slice(5)
+     * query.where('comments').slice([-10, 5])
      */
-    Query.prototype.eq = Query.prototype.equals = function(path, value) {
+    Query.prototype.slice = function(path, value) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -37,7 +42,7 @@
         //build where clause and update current query conditions
         var criteria = {};
         criteria[self._path] = {
-            '$eq': value
+            '$slice': value
         };
 
         //return self

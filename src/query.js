@@ -8,6 +8,7 @@
     }
 
     //TODO implement distinct query
+    //TODO implement select query
 
     /**
      * @description localForage query builder

@@ -11,6 +11,8 @@
 	 * @param  {Integer} value a skip value
 	 * @return {Query}       
 	 * @public
+	 * @example
+	 * query.skip(100).limit(20)
 	 */
 	Query.prototype.skip = function(value) {
 		/*jshint validthis:true*/

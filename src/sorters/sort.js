@@ -5,9 +5,13 @@
 	var Query = root.Query;
 
 	/**
-	 * @description sort query result based on criteria 
+	 * @function
+	 * @description sets the sort order 
 	 * @param {Object} criteria  sorting criteria
 	 * @return {Query}           query instance
+	 * @public
+	 * @example
+	 * query.sort({test: -1 });
 	 */
 	Query.prototype.sort = function(criteria) {
 		// jshint validthis:true
