@@ -10,6 +10,7 @@
 	 * @param {Object} criteria  sorting criteria
 	 * @return {Query}           query instance
 	 * @public
+	 * @see {@link http://docs.mongodb.org/manual/reference/method/cursor.sort/|cursor.sort}
 	 * @example
 	 * query.sort({test: -1 });
 	 */

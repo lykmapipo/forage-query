@@ -13,6 +13,7 @@
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @see {@link http://docs.mongodb.org/manual/reference/projection/slice/#prj._S_slice|$slice}
      * @example
      * query.slice('comments', 5)
      * query.slice('comments', -5)
