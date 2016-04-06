@@ -154,7 +154,8 @@
                 return items;
             } else {
                 //run aggregation
-                return self._aggregate(items);
+                items = self._aggregate(items);
+                return items;
             }
         }
 
