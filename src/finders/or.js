@@ -11,7 +11,7 @@
      * @param  {Object[]} conditions array of conditions
      * @return {Query}       this
      * @public
-     * @see {@link $or}
+     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/or/|$or}
      * @example
      * query.or([{ color: 'green' }, { status: 'ok' }])
      */

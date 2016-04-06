@@ -7,19 +7,20 @@
 
     /**
      * @function
-     * @description specifies an $elemMatch condition
+     * @description specifies a $nin query condition
      * @param  {String} [path]  optional item path to perform comparison on.
      *                        if not specified previous path will be used
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
-     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/elemMatch/|$elemMatch}
+     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/nin/|$nin}
      * @example
-     * query.elemMatch('comment', { author: 'autobot', votes: {$gte: 5}})
+     * Thing.find().where('qty').nin([ 5, 15 ])
      *
-     * query.where('comment').elemMatch({ author: 'autobot', votes: {$gte: 5}})
+     * // or
+     * Thing.find().nin('qty', [ 5, 15 ])
      */
-    Query.prototype.elemMatch = function(path, value) {
+    Query.prototype.nin = function(path, value) {
         /*jshint validthis:true*/
         var self = this;
 
@@ -41,7 +42,7 @@
         //build where clause and update current query conditions
         var criteria = {};
         criteria[self._path] = {
-            '$elemMatch': value
+            '$nin': value
         };
 
         //return self

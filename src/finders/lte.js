@@ -13,6 +13,7 @@
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/lte/|$lte}
      * @example
      * Thing.find().where('age').lte(21)
      *

@@ -13,6 +13,7 @@
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @see {@link http://mongoosejs.com/docs/api.html#query_Query-regex|$regex}
      * @example
      * User.where('name').regex(/^vonderful/i)
      * 

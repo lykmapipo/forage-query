@@ -14,6 +14,10 @@
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/eq/|$eq}
+     * @example
+     * User.where('age').equals(49);
+     * User.where('age').eq(49);
      */
     Query.prototype.eq = Query.prototype.equals = function(path, value) {
         /*jshint validthis:true*/

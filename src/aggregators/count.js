@@ -8,6 +8,8 @@
 	 * @description count existing values based on criteria 
 	 * @param  {Function} [done] a callback to invoke on suceess or error
 	 * @return {Query}           query instance
+	 * @public
+	 * @see {@link https://docs.mongodb.org/manual/reference/method/db.collection.count/|count}
 	 * @example
 	 * var countQuery = model.where({ 'color': 'black' }).count();
 	 *

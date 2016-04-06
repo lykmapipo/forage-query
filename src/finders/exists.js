@@ -13,6 +13,7 @@
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @see {@link https://docs.mongodb.org/manual/reference/operator/query/exists/|$exists}
      * @example
      * // { name: { $exists: true }}
      * Thing.where('name').exists()
