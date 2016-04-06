@@ -43,7 +43,7 @@
             if (hasId) {
                 var id = _.get(self._conditions, 'id.$eq') ||
                     _.get(self._conditions, '_id.$eq');
-                    
+
                 self.localForage.getItem(id, function(error, value) {
                     return done(error, self._buildItem(id, value));
                 });
@@ -148,9 +148,14 @@
         //TODO aggregations
 
         if (self._aggregation) {
-            //TODO handle other aggregations
-            items = items.count();
-            return items;
+            //handle other aggregations
+            if (self._aggregation === 'count') {
+                items = items.count();
+                return items;
+            } else {
+                //run aggregation
+                return self._aggregate(items);
+            }
         }
 
         //fetch single item
@@ -179,10 +184,8 @@
         //jshint validthis:true
         var self = this;
 
-        //TODO handle sort in aggregation pipeline
-
-        if (self._pipelines) {
-            var aggregator = new Mingo.Aggregator(self._pipelines);
+        if (self._aggregation) {
+            var aggregator = new Mingo.Aggregator(self._aggregation);
 
             items = aggregator.run(items);
 
