@@ -13,6 +13,7 @@
      * @param  {Object} value a value to be compared with the path value
      * @return {Query}       this
      * @public
+     * @see {@link http://docs.mongodb.org/manual/reference/operator/size/|$size}
      * @example
      * Thing.where('tags').size(0).exec(function (err, docs) {});
      */
