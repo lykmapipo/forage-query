@@ -5,10 +5,12 @@
   "homepage": "https://github.com/lykmapipo/forage-query",
   "author": "Lally Elias",
   "main": "dist/forage-query.js",
-  "contributors": [{
-    "name": "lykmapipo",
-    "github": "https://github.com/lykmapipo"
-  }],
+  "contributors": [
+    {
+      "name": "lykmapipo",
+      "github": "https://github.com/lykmapipo"
+    }
+  ],
   "keywords": [
     "localForage",
     "finder",
@@ -23,7 +25,7 @@
   "dependencies": {
     "localforage": "^1.4.0",
     "lodash": "^4.7.0",
-    "node-uuid": "^1.4.7"
+    "uuid": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^1.10.0",
