@@ -8,7 +8,7 @@
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory(require("localforage"),require("lodash"),require("node-uuid"));
+    module.exports = factory(require("localforage"),require("lodash"),require("uuid"));
   } else {
     factory(localforage,_,uuid);
   }
